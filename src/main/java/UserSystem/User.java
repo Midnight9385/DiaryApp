@@ -2,8 +2,10 @@ package UserSystem;
 
 import java.io.Serializable;
 
-//this class holds all user data like username and password as well as the serialized string of their journal entries
-//from the DataStorage class
+/**
+ * This class holds all user data like username and password as well as the serialized string of their journal entries
+ * from the DataStorage class
+ */ 
 public class User implements Serializable{
     private String username;
     private String password;

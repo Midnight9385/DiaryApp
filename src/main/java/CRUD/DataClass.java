@@ -4,8 +4,10 @@ import java.util.Date;
 
 import java.io.Serializable;
 
-//This class is the class that stores the data of the journal entries
-//I decided to paramitize the class as at the start I wasn't sure what kind of data I would be receiving
+/**
+ * This class is the class that stores the data of the journal entries 
+ * I decided to paramitize the class as at the start I wasn't sure what kind of data I would be receiving
+ */
 public class DataClass<type> implements Serializable{
     private type data;
     private Date lastEdited = new Date();

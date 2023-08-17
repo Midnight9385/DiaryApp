@@ -10,7 +10,9 @@ import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-
+/**
+ * This class stores all the journal entries as objects of DataClass
+ */
 public class DataStorage{
     private ArrayList<DataClass<?>> dataStorage;
 
@@ -18,24 +20,45 @@ public class DataStorage{
         System.out.println(new File("").getAbsolutePath()+"\\CRUD\\Data\\Data.txt");
     }
 
+    /**
+     * @param serial the serial to contruct the dataStorage object with or null if you want it empty
+     */
     public DataStorage(String serial){
         dataStorage = (serial!=null?contructDataFromString(serial):new ArrayList<DataClass<?>>());
     }
 
+    /**
+     * used in {@link App.DiaryApp} to save the serial string to the user
+     * @return the serial string of the data list
+     */
     public String close(){
         return sendDataSerial();
     }
 
+    /**
+     * creates an entry in the data list
+     * @param data the data inside the object (the entry itself)
+     * @param name the name of the entry
+     */
     public <type> void createData(type data, String name){
         // System.out.println("before size: "+dataStorage.size());
         dataStorage.add(new DataClass<type>(data, name));
         // System.out.println("after size: "+dataStorage.size());
     }
 
+    /**
+     * @param index the index in the data list to return
+     * @return the DataClass object specified
+     */
     public DataClass<?> readData(int index){
         return index<dataStorage.size()?dataStorage.get(index):new DataClass<>("error: index out of bounds", "");
     }
 
+    /**
+     * retrives the journal entry with the specified name
+     * @param name the name of the entry to read
+     * @return the DataClass object, if no name matches returns an empty object with data of "error"
+     */
     public DataClass<?> readData(String name){
         for (DataClass<?> data : dataStorage) {
             if(data.getName().equals(name)){
@@ -46,7 +69,12 @@ public class DataStorage{
         return new DataClass<>("error", "");
     }
 
-    public DataClass<?> updateData(Object data2, String name){
+    /**
+     * updates the data inside the specified entry
+     * @param data2 the new data
+     * @param name the entry to update
+     */
+    public void updateData(Object data2, String name){
         int index = -1;
         for (DataClass<?> data : dataStorage) {
             if(data.getName().equals(name)){
@@ -57,7 +85,7 @@ public class DataStorage{
             updateData(index, data2);
         }
 
-        return new DataClass<>("error: no file with name found", "");
+        // return new DataClass<>("error: no file with name found", "");
     }
 
     public void updateData(int index, Object data){
@@ -69,6 +97,10 @@ public class DataStorage{
         dataStorage.remove(index);
     }
 
+    /**
+     * deletes the entry with the specified name
+     * @param name the name of the entry to delete
+     */
     public void deleteData(String name){
         for (DataClass<?> data : dataStorage) {
             if(data.getName().equals(name)){
@@ -105,6 +137,11 @@ public class DataStorage{
         }
     }
 
+    /**
+     * constructs the data list from a serial string
+     * @param serial the serial to contruct the list from
+     * @return the contructed list or an empty list if the serial isn't valid
+     */
     public ArrayList<DataClass<?>> contructDataFromString(String serial){
         try{
             if(!serial.equals("")){
@@ -139,6 +176,10 @@ public class DataStorage{
         }
     }
 
+    /**
+     * used to get the serial string of the entry list
+     * @return the entry list serial string
+     */
     public String sendDataSerial(){
         try {
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
@@ -153,6 +194,9 @@ public class DataStorage{
         }
     }
 
+    /**
+     * @return the list of strings from the title and date last changed of each entry
+     */
     public String[] getList(){
         ArrayList<String> output = new ArrayList<>();
         // System.out.println(dataStorage.size());

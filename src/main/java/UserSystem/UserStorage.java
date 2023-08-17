@@ -11,8 +11,10 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 
-//this class is used to store all the users
-//again because of the nature of user data this class is only accessable via the UserInterface class
+/**
+ * this class is used to store all the users
+ * again because of the nature of user data this class is only accessable via the UserInterface class
+ */ 
 class UserStorage {
     ArrayList<User> users = getSavedData();
 
@@ -20,32 +22,63 @@ class UserStorage {
         System.out.println(new File("").getAbsolutePath());
     }
 
-
+    /**
+     * This method will save the list of users and then terminate the program depending on what you pass in
+     * @param close whether or not to close the program
+     */
     public void close(boolean close){
         saveData();
         if(close)
             System.exit(0);
     }
 
-    public User createUser(String username, String name){
-        users.add(new User(username, name));
+    /**
+     * creates a new user
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return the newly created user
+     */
+    public User createUser(String username, String password){
+        users.add(new User(username, password));
         return users.get(users.size()-1);
     }
 
+    /**
+     * changes the password of the user
+     * @param index the index in the users list to delete
+     * @param username the username of the user
+     * @param password the updated password of the uer
+     * @return the newly updated user
+     */
     public User changePassword(int index, String username, String password){
         createUser(username, password);
         deleteUser(index);
         return users.get(users.size()-1);
     }
 
+    /**
+     * deletes the user in the user list at the index
+     * @param index the index of the user to delete
+     */
     public void deleteUser(int index){
         users.remove(index);
     }
 
+    /**
+     * sets the serial string of the user
+     * @param u the user to set the serial string of
+     * @param s the serial string
+     */
     public void setSerialString(User u, String s){
         users.get(users.indexOf(u)-1).setSerial(s);
     }
 
+    /**
+     * trys signing in with given info
+     * @param username the attempted username
+     * @param password the attempted password
+     * @return the user that matchs the username and password or null if there is no match
+     */
     public User checkSignIn(String username, String password){
         for(User u : users){
             if(u.checkCredentials(username, password)){
@@ -56,6 +89,10 @@ class UserStorage {
         return null;
     }
 
+    /**
+     * loads the data from the designated data .txt file
+     * @return the constructed user list from the serial string in the file
+     */
     public ArrayList<User> getSavedData(){
         String filePath = new File("").getAbsolutePath()+File.separator+"Data"+File.separator+"UserData.txt";
         try{
@@ -97,6 +134,9 @@ class UserStorage {
         }
     }
 
+    /**
+     * saves the data of the user list and writes the serial string to the designated data .txt file
+     */
     public void saveData(){;
         String filePath = new File("").getAbsolutePath()+File.separator+"Data"+File.separator+"UserData.txt";
         try {

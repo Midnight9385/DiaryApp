@@ -1,7 +1,9 @@
 package CRUD;
 
-//this class is used to interface with the DataStorage class
-//however for ease of use you can also get the DataStorage object
+/**
+ * this class is used to interface with the DataStorage class
+ * however for ease of use you can also get the DataStorage object
+*/
 public class DataInterface {
     public  DataStorage d = new DataStorage(null);
 
