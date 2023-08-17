@@ -52,7 +52,7 @@ class UserStorage {
                 return u;
             }    
         }
-        System.out.println("no match");
+        // System.out.println("no match");
         return null;
     }
 
@@ -108,7 +108,7 @@ class UserStorage {
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
             writer.write(code);
             writer.flush();
-            System.out.println("successful save");
+            // System.out.println("successful save");
         } catch (Exception e) {
             // try {
             //     // Create a FileWriter to write to the file

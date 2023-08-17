@@ -27,9 +27,9 @@ public class DataStorage{
     }
 
     public <type> void createData(type data, String name){
-        System.out.println("before size: "+dataStorage.size());
+        // System.out.println("before size: "+dataStorage.size());
         dataStorage.add(new DataClass<type>(data, name));
-        System.out.println("after size: "+dataStorage.size());
+        // System.out.println("after size: "+dataStorage.size());
     }
 
     public DataClass<?> readData(int index){
@@ -72,7 +72,7 @@ public class DataStorage{
     public void deleteData(String name){
         for (DataClass<?> data : dataStorage) {
             if(data.getName().equals(name)){
-                System.out.println("deleted :: "+data.getName());
+                // System.out.println("deleted :: "+data.getName());
                 dataStorage.remove(data);
                 return;
             }
@@ -133,7 +133,7 @@ public class DataStorage{
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
             writer.write(code);
             writer.flush();
-            System.out.println("successful save");
+            // System.out.println("successful save");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,7 +155,7 @@ public class DataStorage{
 
     public String[] getList(){
         ArrayList<String> output = new ArrayList<>();
-        System.out.println(dataStorage.size());
+        // System.out.println(dataStorage.size());
         for (int i = 0; i < dataStorage.size(); i++) {
             output.add(dataStorage.get(i).getName()+" -\t last changed:"+dataStorage.get(i).getDate()+"\n");
         }

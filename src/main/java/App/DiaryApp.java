@@ -221,6 +221,182 @@ public class DiaryApp {
         signInB.requestFocusInWindow();
     }
 
+    public DiaryApp(){
+        checkFilesExist();
+
+        dataInterface = new DataInterface();
+        userInterface = new UserInterface();
+
+        // Create a JFrame (main window)
+        frame = new JFrame("Basic Swing GUI");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600); // Width, Height
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
+
+        
+
+        signInPanel.setLayout(new BoxLayout(signInPanel, BoxLayout.Y_AXIS));
+        entriesPanel.setLayout(new BoxLayout(entriesPanel, BoxLayout.Y_AXIS));
+        writePanel.setLayout(new BoxLayout(writePanel, BoxLayout.Y_AXIS));
+        itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
+
+        itemPanel.setPreferredSize(new Dimension(780, 400));
+
+        //#region elements
+
+        //#region buttons
+        signInB = new JButton("Sign in");
+        createEntryB = new JButton("create new entry");
+        createAccountB = new JButton("create new account");
+        saveEntryB = new JButton("save and exit journal");
+
+        //#endregion
+
+        //#region labels
+            signInText = new JLabel("Sign In!");
+            signInText.setFont(new Font("Helvetica", Font.PLAIN, 75));
+        //#endregion
+
+        //#region text boxes
+            usernameBox = new JTextField("username");
+            usernameBox.setForeground(Color.GRAY);
+            usernameBox.setMaximumSize(new Dimension(400, 100));
+            usernameBox.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (usernameBox.getText().equals("username") || usernameBox.getText().equals("enter a username to use")){
+                        usernameBox.setText("");
+                        usernameBox.setForeground(Color.BLACK);
+                    }
+                }
+                
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (usernameBox.getText().isEmpty()) {
+                        usernameBox.setText("username");
+                        usernameBox.setForeground(Color.GRAY);
+                    }
+                }
+            });
+            passwordBox = new JTextField("password");
+            passwordBox.setForeground(Color.GRAY);
+            passwordBox.setMaximumSize(new Dimension(400, 100));
+            passwordBox.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (passwordBox.getText().equals("password") || passwordBox.getText().equals("enter a password to use")){
+                        passwordBox.setText("");
+                        passwordBox.setForeground(Color.BLACK);
+                    }
+                }
+                
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (passwordBox.getText().isEmpty()) {
+                        passwordBox.setText("password");
+                        passwordBox.setForeground(Color.GRAY);
+                    }
+                }
+            });
+            entryNameBox = new JTextField("enter name for entry");
+            entryNameBox.setForeground(Color.GRAY);
+            entryNameBox.setMaximumSize(new Dimension(400, 100));
+            entryNameBox.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (entryNameBox.getText().equals("enter name for entry")){
+                        entryNameBox.setText("");
+                        entryNameBox.setForeground(Color.BLACK);
+                    }
+                }
+                
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (entryNameBox.getText().isEmpty()) {
+                        entryNameBox.setText("enter name for entry");
+                        entryNameBox.setForeground(Color.GRAY);
+                    }
+                }
+            });
+
+            journalEntry.setMaximumSize(new Dimension(750, 560));
+        //#endregion
+
+        
+        itemScrollPane = new JScrollPane(itemPanel);
+
+        itemScrollPane.setBackground(Color.BLUE);
+        itemScrollPane.setEnabled(true);
+
+        journalTitle.setMaximumSize(new Dimension(780, 25));
+
+        signInText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        signInB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        usernameBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        passwordBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        createAccountB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        journalEntry.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveEntryB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveEntryB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        signOutB.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        entryNameBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+        createEntryB.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        itemScrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        itemScrollPane.setFocusTraversalPolicyProvider(true);
+
+        //#endregion
+
+        //#region action listeners
+            signInB.addActionListener(a -> signIn());
+            createEntryB.addActionListener(b -> createEntry());
+            createAccountB.addActionListener(c -> createAccount());
+            saveEntryB.addActionListener(d -> saveEntry());
+            signOutB.addActionListener(e -> signOut());
+            exitB.addActionListener(f -> exit());       
+        //#endregion
+
+        //#region add to panel and frame
+        signInPanel.add(Box.createVerticalGlue());
+        signInPanel.add(signInText);
+        signInPanel.add(Box.createVerticalStrut(25));
+        signInPanel.add(usernameBox);
+        signInPanel.add(Box.createVerticalStrut(10));
+        signInPanel.add(passwordBox);
+        signInPanel.add(Box.createVerticalStrut(25));
+        signInPanel.add(signInB);
+        signInPanel.add(Box.createVerticalStrut(25));
+        signInPanel.add(createAccountB);
+        signInPanel.add(Box.createVerticalStrut(50));
+        signInPanel.add(exitB);
+        signInPanel.add(Box.createVerticalGlue());
+
+        entriesPanel.add(itemScrollPane);
+        entriesPanel.add(signOutB);
+        entriesPanel.add(createEntryB);
+        entriesPanel.add(entryNameBox);
+
+        writePanel.add(Box.createRigidArea(new Dimension(0, 10))); // Top padding
+        writePanel.add(Box.createRigidArea(new Dimension(10, 0))); // Right padding
+        writePanel.add(journalTitle);
+        writePanel.add(Box.createVerticalStrut(10));
+        writePanel.add(journalEntry);
+        writePanel.add(Box.createRigidArea(new Dimension(0, 10))); // Bottom padding
+        writePanel.add(Box.createRigidArea(new Dimension(10, 0))); // Left padding
+        writePanel.add(saveEntryB);
+
+
+
+        frame.add(signInPanel);
+        //#endregion
+
+        // Display the frame
+        frame.setVisible(true);
+
+        signInB.requestFocusInWindow();
+    }
+
     public static void checkFilesExist(){
         //C:\Users\Zachary\DiaryApp\Data\UserData.txt
         // File file = new File(new File("").getAbsolutePath()+"\\Data\\UserData.txt");
@@ -230,27 +406,27 @@ public class DiaryApp {
         File file = new File(filePath);
 
         if (file.exists()) {
-            System.out.println("File already exists.");
+            // System.out.println("File already exists.");
         } else {
             // Create the folder if it doesn't exist
             File folder = new File(folderPath);
             if (!folder.exists()) {
                 if (folder.mkdirs()) {
-                    System.out.println("Folder created successfully.");
+                    // System.out.println("Folder created successfully.");
                 } else {
-                    System.out.println("Failed to create the folder.");
+                    // System.out.println("Failed to create the folder.");
                 }
             }
 
             try {
                 // Create the file
                 if (file.createNewFile()) {
-                    System.out.println("File created successfully.");
+                    // System.out.println("File created successfully.");
                 } else {
-                    System.out.println("Failed to create the file.");
+                    // System.out.println("Failed to create the file.");
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred: " + e.getMessage());
+                // System.out.println("An error occurred: " + e.getMessage());
             }
         }
     }
