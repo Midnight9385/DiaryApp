@@ -2,6 +2,9 @@ package CRUD;
 
 import java.util.ArrayList;
 import java.util.Base64;
+
+import util.ErrorHandler;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,6 +18,7 @@ import java.io.ObjectOutputStream;
  */
 public class DataStorage{
     private ArrayList<DataClass<?>> dataStorage;
+    private Boolean testErrorHandler = false;
 
     public static void main(String[] args) {
         System.out.println(new File("").getAbsolutePath()+"\\CRUD\\Data\\Data.txt");
@@ -25,6 +29,14 @@ public class DataStorage{
      */
     public DataStorage(String serial){
         dataStorage = (serial!=null?contructDataFromString(serial):new ArrayList<DataClass<?>>());
+    }
+
+    /**
+     * sets the status of the boolean flag to test error handlers
+     * @param status true to test or false to not test
+     */
+    public void setErrorTestStatus(boolean status){
+        this.testErrorHandler = status;
     }
 
     /**
@@ -132,7 +144,8 @@ public class DataStorage{
                 return new ArrayList<DataClass<?>>();
             }
         }catch(Exception i){
-            i.printStackTrace();
+            // i.printStackTrace();
+            ErrorHandler.sendErrorMessage("reading data from file", "error reading data from file, however you can continue using an empty data list");
             return new ArrayList<DataClass<?>>();
         }
     }
@@ -155,7 +168,8 @@ public class DataStorage{
                 return new ArrayList<DataClass<?>>();
             }
         }catch(Exception i){
-            i.printStackTrace();
+            // i.printStackTrace();
+            ErrorHandler.sendErrorMessage("contructing data from serial", "the serial was either empty or not valid for the type, however you can continue using an empty data list");
             return new ArrayList<DataClass<?>>();
         }
     }
@@ -172,7 +186,10 @@ public class DataStorage{
             writer.flush();
             // System.out.println("successful save");
         } catch (Exception e) {
-            e.printStackTrace();
+            if(ErrorHandler.sendErrorMessageWithRetry("save error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
+                saveData();
+            }
+            // e.printStackTrace();
         }
     }
 
@@ -189,7 +206,10 @@ public class DataStorage{
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
             return code;
         } catch (Exception e) {
-            e.printStackTrace();
+            if(ErrorHandler.sendErrorMessageWithRetry("send serial error", "there was an error sending the serial of the data, you can retry or continue without saving").equals(true)){
+                sendDataSerial();
+            }
+            // e.printStackTrace();
             return "error";
         }
     }

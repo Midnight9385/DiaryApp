@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import util.ErrorHandler;
+
 /**
  * this class is used to store all the users
  * again because of the nature of user data this class is only accessable via the UserInterface class
@@ -111,25 +113,14 @@ class UserStorage {
                 return (ArrayList<User>) o;
             }
             else{
-                //  try {
-                //     // Create a FileWriter to write to the file
-                //     FileWriter fileWriter = new FileWriter(new File("").getAbsolutePath()+"\\DiaryApp\\UserSystem\\User\\Data\\UserData.txt");
-
-                //     // Write the content to the file
-                //     fileWriter.write(new File("").getAbsolutePath()+"\\DiaryApp\\UserSystem\\User\\Data\\UserData.txt");
-
-                //     // Close the FileWriter
-                //     fileWriter.close();
-
-                //     System.out.println("File created and saved successfully.");
-                // } catch (IOException e) {
-                //     System.out.println("An error occurred: " + e.getMessage());
-                // }
                 reader.close();
                 return new ArrayList<User>();
             }
         }catch(Exception i){
-            i.printStackTrace();
+            if(ErrorHandler.sendErrorMessageWithRetry("read error", "there was an error reading data, you can retry, exit, or continue without loading users").equals(true)){
+                getSavedData();
+            }
+            // i.printStackTrace();
             return new ArrayList<User>();
         }
     }
@@ -150,21 +141,10 @@ class UserStorage {
             writer.flush();
             // System.out.println("successful save");
         } catch (Exception e) {
-            // try {
-            //     // Create a FileWriter to write to the file
-            //     FileWriter fileWriter = new FileWriter(new File("").getAbsolutePath()+"\\DiaryApp\\UserSystem\\User\\Data\\UserData.txt");
-
-            //     // Write the content to the file
-            //     fileWriter.write(new File("").getAbsolutePath()+"\\DiaryApp\\UserSystem\\User\\Data\\UserData.txt");
-
-            //     // Close the FileWriter
-            //     fileWriter.close();
-
-            //     System.out.println("File created and saved successfully.");
-            // } catch (IOException c) {
-            //     System.out.println("An error occurred: " + c.getMessage());
-            // }
-            e.printStackTrace();
+            if(ErrorHandler.sendErrorMessageWithRetry("save error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
+                saveData();
+            }
+            // e.printStackTrace();
         }
     }
 }

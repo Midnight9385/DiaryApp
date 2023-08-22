@@ -5,6 +5,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -398,37 +399,53 @@ public class DiaryApp {
     }
 
     public static void checkFilesExist(){
-        //C:\Users\Zachary\DiaryApp\Data\UserData.txt
-        // File file = new File(new File("").getAbsolutePath()+"\\Data\\UserData.txt");
         String folderPath = new File("").getAbsolutePath()+"\\Data";
         String filePath = folderPath + File.separator + "UserData.txt";
 
         File file = new File(filePath);
 
         if (file.exists()) {
-            // System.out.println("File already exists.");
+            //if the file already exist no need to do anything further
         } else {
             // Create the folder if it doesn't exist
             File folder = new File(folderPath);
             if (!folder.exists()) {
                 if (folder.mkdirs()) {
-                    // System.out.println("Folder created successfully.");
+                    //folder created successfully
                 } else {
-                    // System.out.println("Failed to create the folder.");
+                    //if the folder wasn't successfully created then you cannot use this app
+                    //so exit and display error message
+                    error();
                 }
             }
 
             try {
                 // Create the file
                 if (file.createNewFile()) {
-                    // System.out.println("File created successfully.");
+                    //file made successfully
                 } else {
-                    // System.out.println("Failed to create the file.");
+                    //while technically the app can still be used without the file it is used for critical functions
+                    //and thus it not being created will result in the app closing and displaying and error message
+                    error();
                 }
             } catch (IOException e) {
-                // System.out.println("An error occurred: " + e.getMessage());
+                //if there is some exception it is safe to assume the file cannot be used and thus the app cannot be used
+                error();
             }
         }
+    }
+
+    public static void error(){
+        //if there is an error this method will display an error dialog and then exit the program once the user clicks
+        //ok in the error dialog
+        JOptionPane.showMessageDialog(null,
+        "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
+        "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
+        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt", 
+                                 "Fatal Error: Error Creating File", 
+                                 JOptionPane.ERROR_MESSAGE);
+
+        System.exit(1);                         
     }
 
     public static void signOut(){
