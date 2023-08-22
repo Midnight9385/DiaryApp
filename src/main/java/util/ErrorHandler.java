@@ -11,6 +11,10 @@ public class ErrorHandler {
                                             return;
                                         }
     }
+    public static void sendFatalErrorMessage(String title, String message){
+        JOptionPane.showOptionDialog(null,message,"FATAL ERROR: "+title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE,null, new String[]{"Exit"}, null);
+        System.exit(1);                                
+    }
 
     public static Object sendErrorMessageWithRetry(String title, String message){
         switch(JOptionPane.showOptionDialog(null,message,"ERROR: "+title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE,null, new String[]{"Continue", "Retry", "Exit"}, null)){

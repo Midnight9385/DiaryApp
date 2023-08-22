@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import util.ErrorHandler;
+import util.TestException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -125,6 +127,10 @@ public class DataStorage{
 
     public ArrayList<DataClass<?>> getSavedData(){
         try{
+            if(testErrorHandler){
+                throw new TestException();
+            }
+
             FileReader reader = new FileReader(new File("").getAbsolutePath()+"\\CRUD\\Data\\Data.txt");
             int content;
             String n = "";
@@ -145,7 +151,7 @@ public class DataStorage{
             }
         }catch(Exception i){
             // i.printStackTrace();
-            ErrorHandler.sendErrorMessage("reading data from file", "error reading data from file, however you can continue using an empty data list");
+            ErrorHandler.sendErrorMessage("Reading Data", "error reading data from file, however you can continue using an empty data list");
             return new ArrayList<DataClass<?>>();
         }
     }
@@ -157,6 +163,10 @@ public class DataStorage{
      */
     public ArrayList<DataClass<?>> contructDataFromString(String serial){
         try{
+            if(testErrorHandler){
+                throw new TestException();
+            }
+
             if(!serial.equals("")){
                 byte[] b = serial.getBytes();
                 ByteArrayInputStream bo = new ByteArrayInputStream(Base64.getDecoder().decode(b));
@@ -169,13 +179,17 @@ public class DataStorage{
             }
         }catch(Exception i){
             // i.printStackTrace();
-            ErrorHandler.sendErrorMessage("contructing data from serial", "the serial was either empty or not valid for the type, however you can continue using an empty data list");
+            ErrorHandler.sendErrorMessage("Contructing Data", "the serial was either empty or not valid for the type, however you can continue using an empty data list");
             return new ArrayList<DataClass<?>>();
         }
     }
 
     public void saveData(){
         try {
+            if(testErrorHandler){
+                throw new TestException();
+            }
+
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             ObjectOutputStream so = new ObjectOutputStream(bo);
             so.writeObject(dataStorage);
@@ -186,7 +200,7 @@ public class DataStorage{
             writer.flush();
             // System.out.println("successful save");
         } catch (Exception e) {
-            if(ErrorHandler.sendErrorMessageWithRetry("save error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
+            if(ErrorHandler.sendErrorMessageWithRetry("Save Error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
                 saveData();
             }
             // e.printStackTrace();
@@ -199,6 +213,10 @@ public class DataStorage{
      */
     public String sendDataSerial(){
         try {
+            if(testErrorHandler){
+                throw new TestException();
+            }
+
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             ObjectOutputStream so = new ObjectOutputStream(bo);
             so.writeObject(dataStorage);
@@ -206,7 +224,7 @@ public class DataStorage{
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
             return code;
         } catch (Exception e) {
-            if(ErrorHandler.sendErrorMessageWithRetry("send serial error", "there was an error sending the serial of the data, you can retry or continue without saving").equals(true)){
+            if(ErrorHandler.sendErrorMessageWithRetry("Send Serial Error", "there was an error sending the serial of the data, you can retry or continue without saving").equals(true)){
                 sendDataSerial();
             }
             // e.printStackTrace();

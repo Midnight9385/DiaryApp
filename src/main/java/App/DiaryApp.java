@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import CRUD.DataInterface;
 import UserSystem.User;
 import UserSystem.UserInterface;
+import util.ErrorHandler;
 
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -438,14 +439,17 @@ public class DiaryApp {
     public static void error(){
         //if there is an error this method will display an error dialog and then exit the program once the user clicks
         //ok in the error dialog
-        JOptionPane.showMessageDialog(null,
-        "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
+        ErrorHandler.sendFatalErrorMessage("Error Creating File", "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
         "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
-        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt", 
-                                 "Fatal Error: Error Creating File", 
-                                 JOptionPane.ERROR_MESSAGE);
+        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt");
+        // JOptionPane.showMessageDialog(null,
+        // "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
+        // "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
+        // new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt", 
+        //                          "Fatal Error: Error Creating File", 
+        //                          JOptionPane.ERROR_MESSAGE);
 
-        System.exit(1);                         
+        // System.exit(1);                         
     }
 
     public static void signOut(){

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import util.ErrorHandler;
+import util.TestException;
 
 /**
  * this class is used to store all the users
@@ -19,9 +20,25 @@ import util.ErrorHandler;
  */ 
 class UserStorage {
     ArrayList<User> users = getSavedData();
+    private boolean testErrorHandler = false;
 
     public static void main(String[] args) {
         System.out.println(new File("").getAbsolutePath());
+    }
+
+    /**
+     * sets the status of the boolean flag to test error handlers
+     * @param status true to test or false to not test
+     */
+    public void setErrorTestStatus(boolean status){
+        this.testErrorHandler = status;
+    }
+
+    /**
+     * tests the {@link UserStorage#getSavedData()} method because it is used at instantiation of object instead of called after
+     */
+    public void testGetSavedData(){
+        getSavedData();
     }
 
     /**
@@ -98,6 +115,10 @@ class UserStorage {
     public ArrayList<User> getSavedData(){
         String filePath = new File("").getAbsolutePath()+File.separator+"Data"+File.separator+"UserData.txt";
         try{
+            if(testErrorHandler){
+                throw new TestException();
+            }
+
             FileReader reader = new FileReader(filePath);
             int content;
             String n = "";
@@ -117,7 +138,7 @@ class UserStorage {
                 return new ArrayList<User>();
             }
         }catch(Exception i){
-            if(ErrorHandler.sendErrorMessageWithRetry("read error", "there was an error reading data, you can retry, exit, or continue without loading users").equals(true)){
+            if(ErrorHandler.sendErrorMessageWithRetry("Read Error", "there was an error reading data, you can retry, exit, or continue without loading users").equals(true)){
                 getSavedData();
             }
             // i.printStackTrace();
@@ -131,6 +152,10 @@ class UserStorage {
     public void saveData(){;
         String filePath = new File("").getAbsolutePath()+File.separator+"Data"+File.separator+"UserData.txt";
         try {
+            if(testErrorHandler){
+                throw new TestException();
+            }
+
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             ObjectOutputStream so = new ObjectOutputStream(bo);
             so.writeObject(users);
@@ -139,9 +164,10 @@ class UserStorage {
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
             writer.write(code);
             writer.flush();
+            writer.close();
             // System.out.println("successful save");
         } catch (Exception e) {
-            if(ErrorHandler.sendErrorMessageWithRetry("save error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
+            if(ErrorHandler.sendErrorMessageWithRetry("Save Error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
                 saveData();
             }
             // e.printStackTrace();

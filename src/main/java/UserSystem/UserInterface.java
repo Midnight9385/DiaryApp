@@ -27,4 +27,19 @@ public class UserInterface {
         d.close(close);
         // System.out.println("successful save");
     }
+
+    /**
+     * @see UserStorage#setErrorTestStatus
+     * @param status true to test or false to not test
+     */
+    public void setErrorTestStatus(boolean status){
+        d.setErrorTestStatus(status);
+    }
+
+    /**
+     * @see UserStorage#testGetSavedData()
+     */
+    public void testGetSavedData(){
+        d.testGetSavedData();
+    }
 }
