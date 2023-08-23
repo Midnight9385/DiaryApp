@@ -29,8 +29,6 @@ public class CheckFileExistExample{
     }
 
     public static void checkFilesExist(){
-        //C:\Users\Zachary\DiaryApp\Data\UserData.txt
-        // File file = new File(new File("").getAbsolutePath()+"\\Data\\UserData.txt");
         String folderPath = new File("").getAbsolutePath()+"\\Data";
         System.out.println(File.separator);
         String filePath = folderPath + File.separator + "UserData.txt";

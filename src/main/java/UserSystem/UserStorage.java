@@ -104,7 +104,6 @@ class UserStorage {
                 return u;
             }    
         }
-        // System.out.println("no match");
         return null;
     }
 
@@ -165,7 +164,6 @@ class UserStorage {
             writer.write(code);
             writer.flush();
             writer.close();
-            // System.out.println("successful save");
         } catch (Exception e) {
             if(ErrorHandler.sendErrorMessageWithRetry("Save Error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
                 saveData();

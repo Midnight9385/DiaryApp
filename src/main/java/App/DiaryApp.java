@@ -500,8 +500,6 @@ public class DiaryApp {
     }
 
     public static void loadEntry(String s){
-        System.out.println("loading entry :: "+s);
-
         readData(s);
 
         frame.getContentPane().removeAll();

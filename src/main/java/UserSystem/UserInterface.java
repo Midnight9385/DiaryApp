@@ -25,7 +25,6 @@ public class UserInterface {
     public void exit(String serial, User user,boolean close) {
         user.setSerial(serial);
         d.close(close);
-        // System.out.println("successful save");
     }
 
     /**

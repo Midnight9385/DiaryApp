@@ -3,6 +3,7 @@ import CRUD.DataStorage;
 import UserSystem.User;
 import UserSystem.UserInterface;
 
+//this class is used to test the error handler system
 public class ErrorHandlerTest {
     public static void main(String[] args) {
         //test DataStorage error handlers

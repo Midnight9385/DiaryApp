@@ -55,9 +55,7 @@ public class DataStorage{
      * @param name the name of the entry
      */
     public <type> void createData(type data, String name){
-        // System.out.println("before size: "+dataStorage.size());
         dataStorage.add(new DataClass<type>(data, name));
-        // System.out.println("after size: "+dataStorage.size());
     }
 
     /**
@@ -118,7 +116,6 @@ public class DataStorage{
     public void deleteData(String name){
         for (DataClass<?> data : dataStorage) {
             if(data.getName().equals(name)){
-                // System.out.println("deleted :: "+data.getName());
                 dataStorage.remove(data);
                 return;
             }
@@ -198,7 +195,6 @@ public class DataStorage{
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
             writer.write(code);
             writer.flush();
-            // System.out.println("successful save");
         } catch (Exception e) {
             if(ErrorHandler.sendErrorMessageWithRetry("Save Error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
                 saveData();
@@ -237,11 +233,10 @@ public class DataStorage{
      */
     public String[] getList(){
         ArrayList<String> output = new ArrayList<>();
-        // System.out.println(dataStorage.size());
         for (int i = 0; i < dataStorage.size(); i++) {
             output.add(dataStorage.get(i).getName()+" -\t last changed:"+dataStorage.get(i).getDate()+"\n");
         }
-        return output.toArray(new String[0]); // Use toArray(new String[0])
+        return output.toArray(new String[0]);
     }    
 
 }
