@@ -441,15 +441,7 @@ public class DiaryApp {
         //ok in the error dialog
         ErrorHandler.sendFatalErrorMessage("Error Creating File", "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
         "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
-        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt");
-        // JOptionPane.showMessageDialog(null,
-        // "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
-        // "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
-        // new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt", 
-        //                          "Fatal Error: Error Creating File", 
-        //                          JOptionPane.ERROR_MESSAGE);
-
-        // System.exit(1);                         
+        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt");                     
     }
 
     public static void signOut(){
