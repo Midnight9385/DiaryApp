@@ -11,4 +11,4 @@ jobs:
 
     steps:
     - name: Set Environment Variable
-      run: echo "APIKey=${{ secrets.APIKEY }}" >> $GITHUB_ENV
+      run: echo "APIKEY=${{ secrets.APIKEY }}" >> $GITHUB_ENV

@@ -14,7 +14,7 @@ import de.milchreis.uibooster.components.Notification;
 import java.io.IOException;
 
 public class EmailPasswordSend {
-  final static String emailServerPassword = System.getenv("APIKey");
+  final static String emailServerPassword = System.getenv("APIKEY");
   final static Email from = new Email("diaryappnoreply@gmail.com");
   final static String subject = "Login Info";
 
