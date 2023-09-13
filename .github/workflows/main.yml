@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Set Environment Variable
 
 on:
   push:
@@ -6,7 +6,9 @@ on:
       - main
 
 jobs:
+  set-env-variable:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Set Environment Variable
-        run: echo "APIKey=$APIKey" >> $GITHUB_ENV
+    - name: Set Environment Variable
+      run: echo "MY_SECRET=${{ secrets.APIKey }}" >> $GITHUB_ENV

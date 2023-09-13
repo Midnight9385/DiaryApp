@@ -19,6 +19,7 @@ public class EmailPasswordSend {
   final static String subject = "Login Info";
 
   public static void main(String[] args) throws IOException {
+    System.out.println(emailServerPassword);
     
     Email to = new Email("zacharynewkirk88@gmail.com");
     Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
@@ -40,6 +41,7 @@ public class EmailPasswordSend {
   }
 
   public static void sendEmail(String email, String password, String username){
+    System.out.println(emailServerPassword);
     // System.out.println("starting send method");
     Email to = new Email(email);
     Content content = new Content("text/plain", "Here is your login info \n\n username: "+username+"\tpassword: "+password);
