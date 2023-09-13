@@ -1,4 +1,32 @@
-Variable
-  run: echo
-    "APIKey=$APIKey" >>
-    $GITHUB_ENV
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Set Environment Variable
+        run: echo "APIKey=$APIKey" >> $GITHUB_ENV
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install  # Customize this command as needed
+
+      - name: Run Tests
+        run: mvn test  # Customize this command as needed
+
+      - name: Build and Deploy
+        run: |
+          # Your build and deployment commands here
+          # You can access the secret as an environment variable:
+          # echo $MY_SECRET
