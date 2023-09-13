@@ -5,12 +5,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 
+import de.milchreis.uibooster.components.Notification;
 import util.ErrorHandler;
 import util.TestException;
 
@@ -170,5 +170,17 @@ class UserStorage {
             }
             // e.printStackTrace();
         }
+    }
+
+    public void checkEmails(String email){
+        for (User user : users) {
+            if(user.checkEmail(email)){
+                // System.out.println("found user and sent email");
+                user.sendResetPasswordEmail();
+                return;
+            }
+        }
+        Notification n = new Notification();
+        n.display("no matches", null);
     }
 }

@@ -30,33 +30,33 @@ public class CheckFileExistExample{
 
     public static void checkFilesExist(){
         String folderPath = new File("").getAbsolutePath()+"\\Data";
-        System.out.println(File.separator);
+        // System.out.println(File.separator);
         String filePath = folderPath + File.separator + "UserData.txt";
 
         File file = new File(filePath);
 
         if (file.exists()) {
-            System.out.println("File already exists.");
+            // System.out.println("File already exists.");
         } else {
             // Create the folder if it doesn't exist
             File folder = new File(folderPath);
             if (!folder.exists()) {
                 if (folder.mkdirs()) {
-                    System.out.println("Folder created successfully.");
+                    // System.out.println("Folder created successfully.");
                 } else {
-                    System.out.println("Failed to create the folder.");
+                    // System.out.println("Failed to create the folder.");
                 }
             }
 
             try {
                 // Create the file
                 if (file.createNewFile()) {
-                    System.out.println("File created successfully.");
+                    // System.out.println("File created successfully.");
                 } else {
-                    System.out.println("Failed to create the file.");
+                    // System.out.println("Failed to create the file.");
                 }
             } catch (IOException e) {
-                System.out.println("An error occurred: " + e.getMessage());
+                // System.out.println("An error occurred: " + e.getMessage());
             }
         }
     }

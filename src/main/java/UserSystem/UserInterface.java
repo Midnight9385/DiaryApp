@@ -1,5 +1,6 @@
 package UserSystem;
 
+
 /**
  * this class is used to interface with the UserStorage class
  * because user info should be kept safe you cannot access the UserStorage object or class
@@ -40,5 +41,13 @@ public class UserInterface {
      */
     public void testGetSavedData(){
         d.testGetSavedData();
+    }
+
+    public void sendEmail(String email){
+        if(email.equals(null)){
+            return;
+        }
+        // System.out.println("checking emails");
+        d.checkEmails(email);
     }
 }

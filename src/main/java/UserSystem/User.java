@@ -2,6 +2,8 @@ package UserSystem;
 
 import java.io.Serializable;
 
+import EmailSystem.EmailPasswordSend;
+
 /**
  * This class holds all user data like username and password as well as the serialized string of their journal entries
  * from the DataStorage class
@@ -18,11 +20,13 @@ public class User implements Serializable{
         this.dataString = null;
     }
 
-    public void resetPasswordEmail(){
-
+    public void sendResetPasswordEmail(){
+        // System.out.println("sending email");
+        EmailPasswordSend.sendEmail(email, password, username);
     }
 
     public void setEmail(String email){
+        // System.out.println("set email to "+email);
         this.email = email;
     }
 
@@ -44,5 +48,12 @@ public class User implements Serializable{
 
     public boolean checkCredentials(String username, String password){
         return checkUsername(username) && checkPassword(password);
+    }
+
+    public boolean checkEmail(String email) {
+        if(this.email == null){
+            return false;
+        }
+        return this.email.equals(email);
     }
 }

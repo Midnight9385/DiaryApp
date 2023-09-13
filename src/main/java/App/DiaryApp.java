@@ -5,12 +5,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import CRUD.DataInterface;
+import EmailSystem.PasswordResetPopup;
+import EmailSystem.SetEmailPopup;
 import UserSystem.User;
 import UserSystem.UserInterface;
 import util.ErrorHandler;
@@ -35,6 +37,7 @@ public class DiaryApp {
     private static JPanel writePanel = new JPanel();
     private static JButton signInB;
     private static JButton createEntryB;
+    private static JButton forgotPasswordB;
     private static JButton createAccountB;
     private static JButton saveEntryB;
     private static JLabel signInText;
@@ -46,6 +49,7 @@ public class DiaryApp {
     private static ArrayList<JButton> buttonList = new ArrayList<>();
     private static JButton signOutB = new JButton("sign out");
     private static JButton exitB = new JButton("exit");
+    private static JButton setEmailB = new JButton("set recovery email");
     public static void main(String[] args) {
 
         checkFilesExist();
@@ -72,9 +76,11 @@ public class DiaryApp {
 
         //#region buttons
         signInB = new JButton("Sign in");
+        forgotPasswordB = new JButton("forgot password");
         createEntryB = new JButton("create new entry");
         createAccountB = new JButton("create new account");
         saveEntryB = new JButton("save and exit journal");
+        setEmailB = new JButton("Set Recovery Email");
 
         //#endregion
 
@@ -158,6 +164,8 @@ public class DiaryApp {
 
         signInText.setAlignmentX(Component.CENTER_ALIGNMENT);
         signInB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setEmailB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        forgotPasswordB.setAlignmentX(Component.CENTER_ALIGNMENT);
         usernameBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         passwordBox.setAlignmentX(Component.CENTER_ALIGNMENT);
         createAccountB.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -175,12 +183,14 @@ public class DiaryApp {
         //#endregion
 
         //#region action listeners
-            signInB.addActionListener(a -> signIn());
+            signInB.addActionListener(a -> signIn());            
             createEntryB.addActionListener(b -> createEntry());
             createAccountB.addActionListener(c -> createAccount());
             saveEntryB.addActionListener(d -> saveEntry());
             signOutB.addActionListener(e -> signOut());
-            exitB.addActionListener(f -> exit());       
+            exitB.addActionListener(f -> exit());    
+            setEmailB.addActionListener(g -> setEmail());   
+            forgotPasswordB.addActionListener(h -> forgotPassword());
         //#endregion
 
         //#region add to panel and frame
@@ -193,6 +203,8 @@ public class DiaryApp {
         signInPanel.add(Box.createVerticalStrut(25));
         signInPanel.add(signInB);
         signInPanel.add(Box.createVerticalStrut(25));
+        signInPanel.add(forgotPasswordB);
+        signInPanel.add(Box.createVerticalStrut(25));
         signInPanel.add(createAccountB);
         signInPanel.add(Box.createVerticalStrut(50));
         signInPanel.add(exitB);
@@ -202,6 +214,7 @@ public class DiaryApp {
         entriesPanel.add(signOutB);
         entriesPanel.add(createEntryB);
         entriesPanel.add(entryNameBox);
+        entriesPanel.add(setEmailB);
 
         writePanel.add(Box.createRigidArea(new Dimension(0, 10))); // Top padding
         writePanel.add(Box.createRigidArea(new Dimension(10, 0))); // Right padding
@@ -221,6 +234,10 @@ public class DiaryApp {
         frame.setVisible(true);
 
         signInB.requestFocusInWindow();
+    }
+
+    private static void setEmail() {
+        new SetEmailPopup(user);
     }
 
     public DiaryApp(){
@@ -248,9 +265,11 @@ public class DiaryApp {
 
         //#region buttons
         signInB = new JButton("Sign in");
+        forgotPasswordB = new JButton("Forgot Login");
         createEntryB = new JButton("create new entry");
         createAccountB = new JButton("create new account");
         saveEntryB = new JButton("save and exit journal");
+        setEmailB = new JButton("Set Recovery Email");
 
         //#endregion
 
@@ -340,6 +359,8 @@ public class DiaryApp {
         journalEntry.setAlignmentX(Component.CENTER_ALIGNMENT);
         saveEntryB.setAlignmentX(Component.CENTER_ALIGNMENT);
         saveEntryB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        forgotPasswordB.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setEmailB.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitB.setAlignmentX(Component.CENTER_ALIGNMENT);
         signOutB.setAlignmentX(Component.RIGHT_ALIGNMENT);
         entryNameBox.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -357,6 +378,8 @@ public class DiaryApp {
             saveEntryB.addActionListener(d -> saveEntry());
             signOutB.addActionListener(e -> signOut());
             exitB.addActionListener(f -> exit());       
+            forgotPasswordB.addActionListener(g -> forgotPassword());
+            setEmailB.addActionListener(h -> setEmail());
         //#endregion
 
         //#region add to panel and frame
@@ -369,6 +392,8 @@ public class DiaryApp {
         signInPanel.add(Box.createVerticalStrut(25));
         signInPanel.add(signInB);
         signInPanel.add(Box.createVerticalStrut(25));
+        signInPanel.add(forgotPasswordB);
+        signInPanel.add(Box.createVerticalStrut(25));
         signInPanel.add(createAccountB);
         signInPanel.add(Box.createVerticalStrut(50));
         signInPanel.add(exitB);
@@ -378,6 +403,7 @@ public class DiaryApp {
         entriesPanel.add(signOutB);
         entriesPanel.add(createEntryB);
         entriesPanel.add(entryNameBox);
+        entriesPanel.add(setEmailB);
 
         writePanel.add(Box.createRigidArea(new Dimension(0, 10))); // Top padding
         writePanel.add(Box.createRigidArea(new Dimension(10, 0))); // Right padding
@@ -434,6 +460,17 @@ public class DiaryApp {
                 error();
             }
         }
+    }
+
+    public static void forgotPassword(){
+        // System.out.println("started email thing");
+        try {
+            new PasswordResetPopup(userInterface);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // System.out.println("ended email thing");
+        return;
     }
 
     public static void error(){
