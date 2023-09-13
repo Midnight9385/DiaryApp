@@ -12,3 +12,7 @@ jobs:
     steps:
     - name: Set Environment Variable
       run: echo "APIKEY=${{ secrets.APIKEY }}"
+
+    - name: Export all secrets to env variables
+      uses: oNaiPs/secrets-to-env-action@v1.3
+  
