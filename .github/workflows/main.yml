@@ -14,4 +14,7 @@ jobs:
       - uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
+
+      - name: Set environment variable
+        run: echo "MY_VAR=my_value" >> $GITHUB_ENV     
   
