@@ -14,7 +14,7 @@ import java.io.IOException;
 public class EmailPasswordSend {
     final static String emailServerPassword = "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";
     final static Email from = new Email("diaryappnoreply@gmail.com");
-    final static String subject = "Sending with SendGrid is Fun";
+    final static String subject = "Login Info";
   public static void main(String[] args) throws IOException {
     
     Email to = new Email("zacharynewkirk88@gmail.com");
@@ -39,7 +39,7 @@ public class EmailPasswordSend {
   public static void sendEmail(String email, String password, String username){
     // System.out.println("starting send method");
     Email to = new Email(email);
-    Content content = new Content("text/plain", "Here is you login info \n\n username: "+username+"\tpassword: "+password);
+    Content content = new Content("text/plain", "Here is your login info \n\n username: "+username+"\tpassword: "+password);
     Mail mail = new Mail(from, subject, to, content);
 
     SendGrid sg = new SendGrid(emailServerPassword);
