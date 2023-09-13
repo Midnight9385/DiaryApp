@@ -10,9 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set Environment Variable
-      run: echo "APIKEY=${{ secrets.APIKEY }}"
-
-    - name: Export all secrets to env variables
-      uses: oNaiPs/secrets-to-env-action@v1.3
+      - uses: actions/checkout@v3
+      - uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
   
