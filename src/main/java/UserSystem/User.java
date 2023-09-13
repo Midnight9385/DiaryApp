@@ -10,11 +10,20 @@ public class User implements Serializable{
     private String username;
     private String password;
     private String dataString;
+    private String email;
 
     public User(String username, String password){
         this.username = username;
         this.password = password;
         this.dataString = null;
+    }
+
+    public void resetPasswordEmail(){
+
+    }
+
+    public void setEmail(String email){
+        this.email = email;
     }
 
     public String getSerial(){
