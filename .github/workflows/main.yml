@@ -1,0 +1,4 @@
+Variable
+  run: echo
+    "APIKey=$APIKey" >>
+    $GITHUB_ENV
