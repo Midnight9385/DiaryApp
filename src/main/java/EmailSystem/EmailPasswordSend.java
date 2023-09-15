@@ -8,46 +8,21 @@ import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
 import de.milchreis.uibooster.components.Notification;
-
-
+import util.KeyReader;
 
 import java.io.IOException;
 
 public class EmailPasswordSend {
-  final static String emailServerPassword = System.getenv("APIKEY");
   final static Email from = new Email("diaryappnoreply@gmail.com");
   final static String subject = "Login Info";
 
-  public static void main(String[] args) throws IOException {
-    System.out.println(emailServerPassword);
-    
-    Email to = new Email("zacharynewkirk88@gmail.com");
-    Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
-    Mail mail = new Mail(from, subject, to, content);
-
-    SendGrid sg = new SendGrid(emailServerPassword);
-    Request request = new Request();
-    try {
-      request.setMethod(Method.POST);
-      request.setEndpoint("mail/send");
-      request.setBody(mail.build());
-      Response response = sg.api(request);
-      System.out.println(response.getStatusCode());
-      System.out.println(response.getBody());
-      System.out.println(response.getHeaders());
-    } catch (IOException ex) {
-      throw ex;
-    }
-  }
-
   public static void sendEmail(String email, String password, String username){
-    System.out.println(emailServerPassword);
     // System.out.println("starting send method");
     Email to = new Email(email);
     Content content = new Content("text/plain", "Here is your login info \n\n username: "+username+"\tpassword: "+password);
     Mail mail = new Mail(from, subject, to, content);
 
-    SendGrid sg = new SendGrid(emailServerPassword);
+    SendGrid sg = new SendGrid(KeyReader.getAccessKey());
     Request request = new Request();
     try {
       request.setMethod(Method.POST);
