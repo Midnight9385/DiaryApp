@@ -1,0 +1,20 @@
+name: Set Environment Variable
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  set-env-variable:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
+
+      - name: Set environment variable
+        run: echo "MY_VAR=my_value" >> $GITHUB_ENV     
+  
