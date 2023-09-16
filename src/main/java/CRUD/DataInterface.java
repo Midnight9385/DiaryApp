@@ -24,4 +24,12 @@ public class DataInterface {
     public DataStorage getDataStorage(){
         return d;
     }
+
+    /**
+     * for use in the UIBooster table
+     * @return
+     */
+    public String[][] getDataList(){
+        return d.getTableList();
+    }
 }

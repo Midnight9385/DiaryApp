@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import de.milchreis.uibooster.components.Notification;
+import de.milchreis.uibooster.components.TextAreaDialog;
 import util.ErrorHandler;
 import util.TestException;
 

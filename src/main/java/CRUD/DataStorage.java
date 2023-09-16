@@ -233,10 +233,14 @@ public class DataStorage{
      */
     public String[] getList(){
         ArrayList<String> output = new ArrayList<>();
-        for (int i = 0; i < dataStorage.size(); i++) {
-            output.add(dataStorage.get(i).getName()+" -\t last changed:"+dataStorage.get(i).getDate()+"\n");
-        }
+        dataStorage.forEach((i)->output.add(i.getName()+" -\t last changed:"+i.getDate()));
         return output.toArray(new String[0]);
-    }    
+    }  
+    
+    public String[][] getTableList(){
+        ArrayList<String[]> output = new ArrayList<>();
+        dataStorage.forEach((t) -> output.add(new String[]{t.getName(), t.getDate()}));
+        return output.toArray(new String[0][0]);
+    }
 
 }

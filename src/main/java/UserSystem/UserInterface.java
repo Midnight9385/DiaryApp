@@ -1,5 +1,6 @@
 package UserSystem;
 
+import de.milchreis.uibooster.model.LoginCredentials;
 
 /**
  * this class is used to interface with the UserStorage class
@@ -15,6 +16,10 @@ public class UserInterface {
 
     public  User signIn(String username, String password){
         return d.checkSignIn(username, password);
+    }
+
+    public void signIn(LoginCredentials credentials, User[] user){
+        user[0] = d.checkSignIn(credentials.getUsername(), credentials.getPassword());
     }
 
     /**
