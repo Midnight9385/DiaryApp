@@ -237,10 +237,10 @@ public class DataStorage{
         return output.toArray(new String[0]);
     }  
     
-    public String[][] getTableList(){
+    public ArrayList<String[]> getTableList(){
         ArrayList<String[]> output = new ArrayList<>();
         dataStorage.forEach((t) -> output.add(new String[]{t.getName(), t.getDate()}));
-        return output.toArray(new String[0][0]);
+        return output;
     }
 
 }

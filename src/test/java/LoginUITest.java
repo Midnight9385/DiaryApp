@@ -1,6 +1,4 @@
-import java.awt.Button;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 
 import App.DiaryApp;
 import UserSystem.User;

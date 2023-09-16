@@ -1,5 +1,9 @@
 package CRUD;
 
+import java.util.ArrayList;
+
+import UserSystem.User;
+
 /**
  * this class is used to interface with the DataStorage class
  * however for ease of use you can also get the DataStorage object
@@ -30,6 +34,14 @@ public class DataInterface {
      * @return
      */
     public String[][] getDataList(){
-        return d.getTableList();
+        return d.getTableList().toArray(new String[0][0]);
+    }
+
+    /**
+     * for use in the UIBooster table
+     * @return
+     */
+    public static ArrayList<String[]> getEntryList(User u){
+        return new DataStorage(u.getSerial()).getTableList();
     }
 }
