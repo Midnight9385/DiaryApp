@@ -8,7 +8,7 @@ import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
 import de.milchreis.uibooster.components.Notification;
-import util.KeyReader;
+import util.API.KeyReader;
 
 import java.io.IOException;
 

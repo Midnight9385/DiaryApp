@@ -3,8 +3,8 @@ package CRUD;
 import java.util.ArrayList;
 import java.util.Base64;
 
-import util.ErrorHandler;
-import util.TestException;
+import util.Exceptions.ErrorHandler;
+import util.Exceptions.TestException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

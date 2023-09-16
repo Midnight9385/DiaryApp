@@ -2,7 +2,7 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
-import util.ErrorHandler;
+import util.Exceptions.ErrorHandler;
 
 public class ErrorMessageExample {
     public static void main(String[] args) {

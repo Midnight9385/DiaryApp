@@ -12,8 +12,8 @@ import java.util.Base64;
 
 import de.milchreis.uibooster.components.Notification;
 import de.milchreis.uibooster.components.TextAreaDialog;
-import util.ErrorHandler;
-import util.TestException;
+import util.Exceptions.ErrorHandler;
+import util.Exceptions.TestException;
 
 /**
  * this class is used to store all the users

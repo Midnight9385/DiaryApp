@@ -15,7 +15,8 @@ import EmailSystem.PasswordResetPopup;
 import EmailSystem.SetEmailPopup;
 import UserSystem.User;
 import UserSystem.UserInterface;
-import util.ErrorHandler;
+import de.milchreis.uibooster.model.LoginCredentials;
+import util.Exceptions.ErrorHandler;
 
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -578,6 +579,10 @@ public class DiaryApp {
 
             loadItems();
         }
+    }
+
+    public static void createAccount(LoginCredentials credentials, User[] user){
+        user[0] = userInterface.createUser(credentials.getUsername(), credentials.getPassword());
     }
 
     public static void loadItems() {

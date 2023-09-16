@@ -1,4 +1,4 @@
-package util;
+package util.Exceptions;
 import javax.swing.JOptionPane;
 
 public class ErrorHandler {
