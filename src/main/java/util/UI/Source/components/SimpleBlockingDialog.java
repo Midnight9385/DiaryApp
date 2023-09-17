@@ -1,9 +1,16 @@
 package util.UI.Source.components;
 
+import util.UI.UISpacer;
+import util.UI.Dialogs.EntryDialog;
+import util.UI.Dialogs.EntryListDialog;
+import util.UI.Dialogs.LoginDialog;
 import util.UI.Source.model.DialogClosingState;
 import util.UI.Source.model.FormCloseListenerWrapper;
 
 import javax.swing.*;
+
+import App.DiaryApp;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -32,13 +39,16 @@ public class SimpleBlockingDialog {
 
     public DialogClosingState showDialog(String message, String title, WindowSetting setting, String iconPath, FormCloseListenerWrapper exitListenerWrapper, boolean resizable) {
         JOptionPane optionPane = new JOptionPane();
+        optionPane.setOptions(new String[]{"Save and Exit"});
 
         if (message != null && !message.isEmpty())
             optionPane.setMessage(new Object[]{message, components});
         else
             optionPane.setMessage(new Object[]{components});
 
+        optionPane.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
         dialog = createDialog(title, optionPane);
+        dialog.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
         applyWindowIcon(iconPath, dialog);
 
         if (onDialogCreated != null)
@@ -49,6 +59,11 @@ public class SimpleBlockingDialog {
             @Override
             public void windowClosed(WindowEvent e) {
                 closingState.setClosedByUser(optionPane.getValue() == null);
+
+                if(optionPane.getValue()!=null){
+                    EntryDialog.saveEntry(optionPane.getMessage());//TODO make sure it saves entry properly
+                    EntryListDialog.showEntires(LoginDialog.getUser());
+                }
 
                 if (exitListenerWrapper != null)
                     exitListenerWrapper.executeListener();
@@ -65,6 +80,8 @@ public class SimpleBlockingDialog {
             else
                 dialog.setLocationRelativeTo(null);
         }
+
+        dialog.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
 
         dialog.setResizable(resizable);
         dialog.pack();

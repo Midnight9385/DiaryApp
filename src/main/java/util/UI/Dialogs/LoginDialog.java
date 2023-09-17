@@ -6,6 +6,7 @@ import de.milchreis.uibooster.model.LoginCredentials;
 import javax.swing.*;
 
 import App.DiaryApp;
+import UserSystem.User;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,8 @@ public class LoginDialog extends JDialog {
     private final JPasswordField pfPassword;
     private final JButton btnLogin;
     private final DialogClosingState closingState;
+
+    private static User u;
 
     public LoginDialog(boolean login, String title, String message, String usernameLabel, String passwordLabel, String loginButtonLabel, String cancelButtonLabel, String iconPath) {
         super((JFrame) null, title, true);
@@ -134,5 +137,13 @@ public class LoginDialog extends JDialog {
         return closingState.isClosedByUser() ?
                 null :
                 new LoginCredentials(tfUsername.getText().trim(), new String(pfPassword.getPassword()));
+    }
+
+    public static void setUser(User user){
+        u = user;
+    }
+
+    public static User getUser(){
+        return u;
     }
 }

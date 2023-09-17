@@ -1,5 +1,3 @@
-import java.io.File;
-
 import javax.swing.JOptionPane;
 
 import util.Exceptions.ErrorHandler;

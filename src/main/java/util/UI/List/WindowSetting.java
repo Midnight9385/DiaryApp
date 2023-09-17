@@ -6,8 +6,8 @@ public class WindowSetting {
 
     private boolean visible = true;
 
-    private int width = 400;
-    private int height = 200;
+    private int width = 800;
+    private int height = 400;
 
     private boolean undecorated = false;
 

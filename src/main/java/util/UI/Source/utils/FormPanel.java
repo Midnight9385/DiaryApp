@@ -1,5 +1,6 @@
 package util.UI.Source.utils;
 
+import util.UI.UISpacer;
 import util.UI.Source.model.FormElement;
 import util.UI.Source.model.FormElementChangeListener;
 
@@ -37,6 +38,7 @@ public class FormPanel {
                 formElement.getMarginBottom(), formElement.getMarginRight())
             );
 
+            panel.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
             panel.add(elementPanel);
         }
         return panel;

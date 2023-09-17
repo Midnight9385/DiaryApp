@@ -1,9 +1,15 @@
 package util.UI.Source.model.formelements;
 
+import util.UI.Dialogs.EntryDialog;
 import util.UI.Source.model.FormElement;
 import util.UI.Source.model.FormElementChangeListener;
 
 import javax.swing.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -47,4 +53,22 @@ public class TextAreaFormElement extends FormElement {
     public void setValue(Object value) {
         area.setText(value.toString());
     }
+
+    public void addActionListener() {
+        area.addInputMethodListener(new InputMethodListener() {
+
+            @Override
+            public void inputMethodTextChanged(InputMethodEvent event) {
+                System.out.println("changed");
+                EntryDialog.setEntry(area.getText());
+            }
+
+            @Override
+            public void caretPositionChanged(InputMethodEvent event) {
+                System.out.println("changed");
+                EntryDialog.setEntry(area.getText());
+            }
+            
+        });
+    }    
 }

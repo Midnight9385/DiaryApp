@@ -60,4 +60,8 @@ public class LoginUITest {
         DiaryApp.createAccount(createAccountDialog().showDialog(), user);
     }
 
+    public static User getUser(){
+        return user[0];
+    }
+
 }

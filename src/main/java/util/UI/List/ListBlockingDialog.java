@@ -59,8 +59,6 @@ public class ListBlockingDialog {
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                System.out.println(optionPane.getValue());
-                System.out.println(EntryListDialog.getChosenTitle());
                 closingState.setClosedByUser(optionPane.getValue() == null);
 
                 //TODO make sure all these methods do the right thing with the new UI

@@ -14,6 +14,7 @@ public class EntryListDialog {
     private static String chosenTitle = "";
 
     public static void showEntires(User u){
+        LoginDialog.setUser(u);
         b.showList("", "Entries", 
                    element -> setChosenTitle(element.getTitle()), 
                    createElementList(u));

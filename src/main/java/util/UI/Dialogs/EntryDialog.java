@@ -8,56 +8,44 @@ import App.DiaryApp;
 import CRUD.DataInterface;
 import CRUD.DataStorage;
 
+import java.awt.Component;
 import java.awt.Frame;
 
-import de.milchreis.uibooster.model.Form;
-import de.milchreis.uibooster.model.UiBoosterOptions;
-import de.milchreis.uibooster.model.options.DarkUiBoosterOptions;
-import de.milchreis.uibooster.utils.WindowIconHelper;
-import util.UI.UiBooster;
+import util.UI.Source.model.Form;
+import util.UI.Source.model.UiBoosterOptions;
+import util.UI.Source.model.options.DarkUiBoosterOptions;
+import util.UI.Source.utils.WindowIconHelper;
+import util.UI.Source.UiBooster;
 
 import static javax.swing.JOptionPane.*;
 
 public class EntryDialog {
+    private static String title;
+    private static String entry;
+
     private static UiBoosterOptions options = new DarkUiBoosterOptions();
     public static void showEntry(String title){
         UiBooster booster = new UiBooster();
-        Form form = booster.createForm("Personal information")
-                    .addText("Title")
-                    .addTextArea("Entry")
-                    .show();
-        showInputDialog("title", DiaryApp.sendEntry(title), options);
+        Form form = booster.createForm("Entry")
+                    .addText("Title", DiaryApp.sendEntry(title)[0], 0)
+                    .addTextArea("Entry", DiaryApp.sendEntry(title)[1])
+                    .show();            
     }
 
     private static void exit(){
 
     }
 
-    private static String showInputDialog(String message, String[] entry, UiBoosterOptions options) {
-        JOptionPane jp = new JOptionPane(message, JOptionPane.QUESTION_MESSAGE, JOptionPane.CANCEL_OPTION, null, new String[]{"Save and Exit"}, null);
-
-        jp.setWantsInput(true);
-        jp.setSelectionValues(null);
-        jp.setInitialSelectionValue(null);
-        jp.setComponentOrientation(getRootFrame().getComponentOrientation());
-
-        
-
-        createDialog(jp, UIManager.getString("OptionPane.inputDialogTitle", null), options);
-
-        Object value = jp.getInputValue();
-
-        if (value == UNINITIALIZED_VALUE) {
-            return null;
-        }
-
-        return value.toString();
+    public static void saveEntry(Object components) {
+        String title;
+        String entry;
     }
 
-    private static void createDialog(JOptionPane jp, String String, UiBoosterOptions options) {
-        JDialog dialog = jp.createDialog(null, String);
-        ((Frame) dialog.getParent()).setIconImage(WindowIconHelper.getIcon(options.getIconPath()).getImage());
-        dialog.setIconImage(WindowIconHelper.getIcon(options.getIconPath()).getImage());
-        dialog.setVisible(true);
+    public static void setTitle(String t){
+        title = t;
+    }
+
+    public static void setEntry(String t){
+        entry = t;
     }
 }

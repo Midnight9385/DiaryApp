@@ -1,5 +1,6 @@
 package util.UI.Source.model;
 
+import util.UI.UISpacer;
 import util.UI.Source.components.SimpleBlockingDialog;
 import util.UI.Source.components.SimpleDialog;
 import util.UI.Source.components.WindowSetting;
@@ -7,6 +8,7 @@ import util.UI.Source.model.formelements.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +64,19 @@ public class FormBuilder {
      * Adds an input text field to the form with an initial text.
      *
      * @param label       expects the label for this input element
+     * @param initialText expects a text which will be set into the text field
+     */
+    public FormBuilder addText(String label, String initialText, int action) {
+        TextFormElement t = new TextFormElement(label, initialText, false);
+        t.addActionListener();
+        addElement(t);
+        return this;
+    }
+
+    /**
+     * Adds an input text field to the form with an initial text.
+     *
+     * @param label       expects the label for this input element
      * @param initialText expects a text which will be set into the text field.
      * @param readonly    if readonly is set to true, the input field is not changable for the user
      */
@@ -99,6 +114,19 @@ public class FormBuilder {
      */
     public FormBuilder addTextArea(String label, String initialText) {
         addElement(new TextAreaFormElement(label, 3, initialText, false));
+        return this;
+    }
+
+    /**
+     * Adds an input text area with 3 lines to the form and an initial text.
+     *
+     * @param label       expects the label for this input element
+     * @param initialText expects a text which will be set into the text area
+     */
+    public FormBuilder addTextArea(String label, String initialText, int a) {
+        TextAreaFormElement t = new TextAreaFormElement(label, 3, initialText, false);
+        t.addActionListener();
+        addElement(t);
         return this;
     }
 
@@ -593,8 +621,10 @@ public class FormBuilder {
         SimpleBlockingDialog dialog = new SimpleBlockingDialog(panel);
         dialog.setDialogCreatedListener(form::setWindow);
 
+        panel.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
+
         if (this.formInitializedListener != null)
-            this.formInitializedListener.onInit(form);
+            this.formInitializedListener.onInit(form);    
 
         dialog.showDialog(null, title,
             windowSetting,
