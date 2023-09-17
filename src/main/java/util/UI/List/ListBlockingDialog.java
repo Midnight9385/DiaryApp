@@ -2,12 +2,18 @@ package util.UI.List;
 
 import de.milchreis.uibooster.model.DialogClosingState;
 import de.milchreis.uibooster.model.FormCloseListenerWrapper;
-import util.UI.EntryListDialog;
+import util.UI.Dialogs.EntryDialog;
+import util.UI.Dialogs.EntryListDialog;
 
 import javax.swing.*;
+
+import App.DiaryApp;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static de.milchreis.uibooster.utils.WindowIconHelper.applyWindowIcon;
@@ -18,6 +24,7 @@ public class ListBlockingDialog {
     private final JComponent[] components;
     private final DialogClosingState closingState = new DialogClosingState();
     private Consumer<JDialog> onDialogCreated;
+    private final ArrayList<String> options = new ArrayList<>(Arrays.asList(new String[]{"Create New Entry","Edit Entry", "Sign Out"}));
 
     public ListBlockingDialog(JComponent... component) {
         this.components = component;
@@ -32,7 +39,8 @@ public class ListBlockingDialog {
     }
 
     public DialogClosingState showDialog(String message, String title, WindowSetting setting, String iconPath, FormCloseListenerWrapper exitListenerWrapper, boolean resizable) {
-        JOptionPane optionPane = new JOptionPane(null, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,(Icon)null, new String[]{"Edit Entry", "Sign Out"}, null);
+        JOptionPane optionPane = new JOptionPane(null, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options.toArray(new String[0]), null);
+        optionPane.setMessageType(JOptionPane.PLAIN_MESSAGE);
 
         if (message != null && !message.isEmpty())
             optionPane.setMessage(new Object[]{message, components});
@@ -51,7 +59,17 @@ public class ListBlockingDialog {
         dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
+                System.out.println(optionPane.getValue());
+                System.out.println(EntryListDialog.getChosenTitle());
                 closingState.setClosedByUser(optionPane.getValue() == null);
+
+                //TODO make sure all these methods do the right thing with the new UI
+                switch(options.indexOf(optionPane.getValue().toString())){
+                    case 0:  DiaryApp.createEntry(); break; //create
+                    case 1:  EntryDialog.showEntry(EntryListDialog.getChosenTitle());break; //edit
+                    case 2:  DiaryApp.signOut(); break; //sign out
+                    default: break; //shouldn't get this case
+                }
 
                 if (exitListenerWrapper != null)
                     exitListenerWrapper.executeListener();

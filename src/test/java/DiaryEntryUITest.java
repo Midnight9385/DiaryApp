@@ -1,11 +1,7 @@
 import java.awt.Toolkit;
 
-import CRUD.DataInterface;
 import UserSystem.User;
-import UserSystem.UserInterface;
-import de.milchreis.uibooster.UiBooster;
-import de.milchreis.uibooster.components.LoginDialog;
-import util.UI.EntryListDialog;
+import util.UI.Dialogs.EntryListDialog;
 
 
 public class DiaryEntryUITest {

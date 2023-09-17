@@ -1,0 +1,50 @@
+package util.UI.Source.model.formelements;
+
+import util.UI.Source.model.FormElement;
+import util.UI.Source.model.FormElementChangeListener;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class HtmlTextFormElement extends FormElement {
+
+    private final JEditorPane area;
+
+    public HtmlTextFormElement(String label, String htmlContent, int width, int height) {
+        super(label);
+        area = new JEditorPane("text/html", htmlContent);
+        area.setPreferredSize(new Dimension(width, height));
+    }
+
+    @Override
+    public JComponent createComponent(FormElementChangeListener changeListener) {
+
+        if (changeListener != null) {
+            area.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    super.keyReleased(e);
+                    changeListener.onChange(HtmlTextFormElement.this, getValue(), form);
+                }
+            });
+        }
+        return new JScrollPane(area);
+    }
+
+    @Override
+    public void setEnabled(boolean enable) {
+        area.setEnabled(enable);
+    }
+
+    @Override
+    public String getValue() {
+        return area.getText();
+    }
+
+    @Override
+    public void setValue(Object value) {
+        area.setText(value.toString());
+    }
+}

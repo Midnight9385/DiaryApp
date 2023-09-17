@@ -24,8 +24,6 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 public class ListDialog {
-   private static final int ICON_DIMENSION = 80;
-
    public ListDialog() {
    }
 
@@ -38,13 +36,13 @@ public class ListDialog {
       JScrollPane jScrollPane = new JScrollPane(list, 20, 32);
       jScrollPane.setPreferredSize(new Dimension(400, 400));
       ListBlockingDialog dialog = new ListBlockingDialog(new JComponent[]{jScrollPane});
-      DialogClosingState closingState = dialog.showDialog(message, title, (WindowSetting)null, iconPath, (FormCloseListenerWrapper)null, true);
+      DialogClosingState closingState = dialog.showDialog(message, title, (WindowSetting)null, null, (FormCloseListenerWrapper)null, true);
       return closingState.isClosedByUser() ? null : (ListElement)list.getSelectedValue();
    }
 
    public static JList<ListElement> createList(SelectElementListener selectElementListener, ListElement[] elements) {
       DefaultListModel<ListElement> listModel = createListModel(elements);
-      JList<ListElement> list = new JList(listModel);
+      JList<ListElement> list = new JList<ListElement>(listModel);
       if (selectElementListener != null) {
          list.addListSelectionListener((e) -> {
             if (e.getValueIsAdjusting()) {
@@ -91,7 +89,7 @@ public class ListDialog {
    }
 
    public static DefaultListModel<ListElement> createListModel(ListElement[] elements) {
-      DefaultListModel<ListElement> listModel = new DefaultListModel();
+      DefaultListModel<ListElement> listModel = new DefaultListModel<ListElement>();
       Stream.of(elements).forEach(listModel::addElement);
       return listModel;
    }

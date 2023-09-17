@@ -4,7 +4,7 @@ import App.DiaryApp;
 import UserSystem.User;
 import UserSystem.UserInterface;
 import de.milchreis.uibooster.UiBooster;
-import util.UI.LoginDialog;
+import util.UI.Dialogs.LoginDialog;
 
 
 public class LoginUITest {

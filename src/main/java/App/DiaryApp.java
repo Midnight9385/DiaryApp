@@ -537,6 +537,12 @@ public class DiaryApp {
         journalTitle.setText(dataInterface.getDataStorage().readData(s).getName());
     }
 
+    public static String[] sendEntry(String s){
+        dataInterface = new DataInterface();
+        dataInterface.create(s); //TODO make sure to remove this quick test thing
+        return new String[]{dataInterface.getDataStorage().readData(s).getName(),dataInterface.getDataStorage().readData(s).read().toString()};
+    }
+
     public static void loadEntry(String s){
         readData(s);
 

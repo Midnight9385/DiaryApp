@@ -6,6 +6,7 @@ import de.milchreis.uibooster.model.options.*;
 import de.milchreis.uibooster.utils.FontHelper;
 import de.milchreis.uibooster.utils.JOptionPaneHelper;
 import de.milchreis.uibooster.utils.WindowIconHelper;
+import util.UI.Dialogs.LoginDialog;
 import util.UI.List.ListDialog;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ import static de.milchreis.uibooster.utils.ParameterValidator.nonNull;
  */
 public class UiBooster {
     private final UiBoosterOptions options;
+    private static UiBoosterOptions staticOptions;
 
     public UiBooster() {
         this(new DarkUiBoosterOptions());
@@ -76,6 +78,7 @@ public class UiBooster {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        staticOptions = this.options;
     }
 
     /**
@@ -808,5 +811,9 @@ public class UiBooster {
      */
     public List<String> showMultipleSelection(String message, String title, boolean hideFilter, String... elements) {
         return FilterableCheckboxListDialog.show(message, title, Arrays.asList(elements), hideFilter, options.getIconPath());
+    }
+
+    public static UiBoosterOptions getUiBoosterOptions(){
+        return staticOptions;
     }
 }
