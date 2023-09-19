@@ -11,6 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import CRUD.DataInterface;
+import CRUD.DataStorage;
 import EmailSystem.PasswordResetPopup;
 import EmailSystem.SetEmailPopup;
 import UserSystem.User;
@@ -491,6 +492,14 @@ public class DiaryApp {
         frame.repaint();
     }
 
+    public static void signOut(User u){
+        userInterface.exit(dataInterface.exit(), u, false);
+    }
+
+    public static void signOut(User u, boolean close){
+        userInterface.exit(dataInterface.exit(), u, close);
+    }
+
     private static void exit(){
         System.exit(0);
     }
@@ -531,6 +540,15 @@ public class DiaryApp {
         loadItems();
     }
 
+    public static void saveEntry(String title, String newTitle, String data){
+        dataInterface.getDataStorage().deleteData(title);
+        dataInterface.getDataStorage().createData(data, newTitle);
+    }
+
+    public static DataStorage getDataStorage(){
+        return dataInterface.getDataStorage();
+    }
+
     public static void readData(String s){
         nameOfChosenEntry = s;
         journalEntry.setText(dataInterface.getDataStorage().readData(s).read().toString());
@@ -538,8 +556,8 @@ public class DiaryApp {
     }
 
     public static String[] sendEntry(String s){
-        dataInterface = new DataInterface();
-        dataInterface.create(s); //TODO make sure to remove this quick test thing
+        // dataInterface = new DataInterface();
+        // dataInterface.create(s); //TODO make sure to remove this quick test thing
         return new String[]{dataInterface.getDataStorage().readData(s).getName(),dataInterface.getDataStorage().readData(s).read().toString()};
     }
 
@@ -567,6 +585,10 @@ public class DiaryApp {
             frame.revalidate();
             frame.repaint();
         }
+    }
+
+    public static void createEmptyEntry(){
+        dataInterface.create("");
     }
 
     public static void createAccount(){
@@ -610,5 +632,26 @@ public class DiaryApp {
             b.addActionListener(e -> loadEntry(b.getText().substring(0, b.getText().indexOf("-") - 1)));
             b.setAlignmentX(Component.CENTER_ALIGNMENT);
         }
+    }
+
+    public static DataInterface getDataInterface() {
+        return dataInterface;
+    }
+
+    public static void createInterfaces(){
+        checkFilesExist();
+
+        dataInterface = new DataInterface();
+        userInterface = new UserInterface();
+
+        userInterface.testGetSavedData();
+    }
+
+    public static UserInterface getUserInterface() {
+        return userInterface;
+    }
+
+    public static void close() {
+        // userInterface.sa
     }
 }

@@ -46,7 +46,7 @@ public class TextFormElement extends FormElement {
             @Override
             public void actionPerformed(ActionEvent e) {
                 EntryDialog.setTitle(textfield.getText());
-                System.out.println("set text");
+                // System.out.println("set text");
             }
         });    
     }

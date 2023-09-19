@@ -59,13 +59,13 @@ public class TextAreaFormElement extends FormElement {
 
             @Override
             public void inputMethodTextChanged(InputMethodEvent event) {
-                System.out.println("changed");
+                // System.out.println("changed");
                 EntryDialog.setEntry(area.getText());
             }
 
             @Override
             public void caretPositionChanged(InputMethodEvent event) {
-                System.out.println("changed");
+                // System.out.println("changed");
                 EntryDialog.setEntry(area.getText());
             }
             

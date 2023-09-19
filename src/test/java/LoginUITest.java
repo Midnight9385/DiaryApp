@@ -4,6 +4,7 @@ import App.DiaryApp;
 import UserSystem.User;
 import UserSystem.UserInterface;
 import de.milchreis.uibooster.UiBooster;
+import de.milchreis.uibooster.model.LoginCredentials;
 import util.UI.Dialogs.LoginDialog;
 
 
@@ -18,9 +19,10 @@ public class LoginUITest {
     private final int height = 400;     
     
     private static User user[] = new User[1];
-    private UserInterface u = new UserInterface();
+    private static UserInterface u;
     public static void main(String[] args){
-        LoginUITest l = new LoginUITest(new UserInterface());
+        DiaryApp.createInterfaces();
+        LoginUITest l = new LoginUITest(DiaryApp.getUserInterface());
     }
 
     public LoginUITest(UserInterface u){
@@ -33,12 +35,12 @@ public class LoginUITest {
         new DiaryEntryUITest(this.login(false));
     }
 
-    public User login(boolean failed){
+    public static User login(boolean failed){
         if(failed){
             booster.showInfoDialog("invalid username or password please retry");
         }
-        u.signIn(login.showDialog(), this.user); //uses psuedo pass by reference since it is easier in this case
-        return (this.user[0]!=null)?this.user[0]:login(true);
+        u.signIn(login.showDialog(), user); //uses psuedo pass by reference since it is easier in this case
+        return (user[0]!=null)?user[0]:login(true);
     }
 
     private int getMiddleX(){

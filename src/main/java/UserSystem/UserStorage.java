@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import de.milchreis.uibooster.components.Notification;
-import de.milchreis.uibooster.components.TextAreaDialog;
 import util.Exceptions.ErrorHandler;
 import util.Exceptions.TestException;
 
@@ -162,6 +161,7 @@ class UserStorage {
             so.flush();
             FileWriter writer = new FileWriter(filePath);
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
+            // System.out.println(code);
             writer.write(code);
             writer.flush();
             writer.close();
@@ -169,6 +169,7 @@ class UserStorage {
             if(ErrorHandler.sendErrorMessageWithRetry("Save Error", "there was an error saving the data, you can retry or continue without saving").equals(true)){
                 saveData();
             }
+            // System.out.println("error saving");
             // e.printStackTrace();
         }
     }

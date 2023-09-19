@@ -1,44 +1,45 @@
 package util.UI.Dialogs;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
 import App.DiaryApp;
-import CRUD.DataInterface;
-import CRUD.DataStorage;
-
-import java.awt.Component;
-import java.awt.Frame;
-
 import util.UI.Source.model.Form;
+import util.UI.Source.model.FormElementChangeListener;
 import util.UI.Source.model.UiBoosterOptions;
 import util.UI.Source.model.options.DarkUiBoosterOptions;
-import util.UI.Source.utils.WindowIconHelper;
 import util.UI.Source.UiBooster;
-
-import static javax.swing.JOptionPane.*;
 
 public class EntryDialog {
     private static String title;
     private static String entry;
 
-    private static UiBoosterOptions options = new DarkUiBoosterOptions();
-    public static void showEntry(String title){
+    public static void showEntry(String cTitle){
         UiBooster booster = new UiBooster();
+        title = cTitle;
         Form form = booster.createForm("Entry")
-                    .addText("Title", DiaryApp.sendEntry(title)[0], 0)
-                    .addTextArea("Entry", DiaryApp.sendEntry(title)[1])
+                    .addText("Title", DiaryApp.sendEntry(cTitle)[0], 0)
+                    .setChangeListener(new FormElementChangeListener() {
+
+                        @Override
+                        public void onChange(util.UI.Source.model.FormElement element, Object value, Form form) {
+                            EntryDialog.saveEnteredData(element.getLabel(), value.toString());
+                        }
+                        
+                    })
+                    .addTextArea("Entry", DiaryApp.sendEntry(cTitle)[1])
                     .show();            
     }
 
-    private static void exit(){
-
+    public static void saveEnteredData(String label, String data) {
+        if(label.equals("Title")){
+            // System.out.println("changed title: "+data);
+            title = data;
+        }else if(label.equals("Entry")){
+            // System.out.println("changed entry: "+data);
+            entry = data;
+        }
     }
 
-    public static void saveEntry(Object components) {
-        String title;
-        String entry;
+    public static void saveEntry(){
+        DiaryApp.saveEntry(EntryListDialog.getChosenTitle(), title, entry);
     }
 
     public static void setTitle(String t){

@@ -56,6 +56,7 @@ public class DataStorage{
      */
     public <type> void createData(type data, String name){
         dataStorage.add(new DataClass<type>(data, name));
+        // System.out.println("Created entry: "+dataStorage.get(dataStorage.size()-1).getName());
     }
 
     /**

@@ -1,7 +1,9 @@
 package util.UI.Dialogs;
 
+import de.milchreis.uibooster.UiBooster;
 import de.milchreis.uibooster.model.DialogClosingState;
 import de.milchreis.uibooster.model.LoginCredentials;
+import util.UI.UISpacer;
 
 import javax.swing.*;
 
@@ -23,7 +25,7 @@ public class LoginDialog extends JDialog {
     private final JButton btnLogin;
     private final DialogClosingState closingState;
 
-    private static User u;
+    private static User[] u = new User[1];
 
     public LoginDialog(boolean login, String title, String message, String usernameLabel, String passwordLabel, String loginButtonLabel, String cancelButtonLabel, String iconPath) {
         super((JFrame) null, title, true);
@@ -90,8 +92,8 @@ public class LoginDialog extends JDialog {
 
         JButton btnCancel = new JButton(cancelButtonLabel);
         btnCancel.addActionListener(e -> {
-            closingState.setClosedByUser(true);
-            dispose();
+            DiaryApp.signOut(getUser(), true);
+            // closingState.setClosedByUser(true);
         });
 
         
@@ -140,10 +142,27 @@ public class LoginDialog extends JDialog {
     }
 
     public static void setUser(User user){
-        u = user;
+        u[0] = user;
     }
 
     public static User getUser(){
-        return u;
+        return u[0];
+    }
+
+    public static void start(){
+        EntryListDialog.showEntires(login(false, new LoginDialog(true, "Login to App", "Enter Username And Password", 
+                                                     "Username: ", "Password: ", 
+                                                     "Login", "Exit", 
+                                                     "C:\\Users\\Zachary\\Documents\\GitHub\\diaryapp\\src\\main\\resources\\DiaryAppIcon.png")
+                                                     ));                                                                                          
+    }
+
+    public static User login(boolean failed, LoginDialog login){
+        login.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
+        if(failed){
+            new UiBooster().showInfoDialog("invalid username or password please retry");
+        }
+        DiaryApp.getUserInterface().signIn(login.showDialog(), u); //uses psuedo pass by reference since it is easier in this case
+        return (u[0]!=null)?u[0]:login(true, login);
     }
 }

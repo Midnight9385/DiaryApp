@@ -55,4 +55,8 @@ public class UserInterface {
         // System.out.println("checking emails");
         d.checkEmails(email);
     }
+
+    public void printUserList() {
+        System.out.println(d.users.size());
+    }
 }

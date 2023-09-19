@@ -61,7 +61,7 @@ public class SimpleBlockingDialog {
                 closingState.setClosedByUser(optionPane.getValue() == null);
 
                 if(optionPane.getValue()!=null){
-                    EntryDialog.saveEntry(optionPane.getMessage());//TODO make sure it saves entry properly
+                    EntryDialog.saveEntry();
                     EntryListDialog.showEntires(LoginDialog.getUser());
                 }
 

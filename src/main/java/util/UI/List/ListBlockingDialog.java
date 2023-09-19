@@ -4,6 +4,7 @@ import de.milchreis.uibooster.model.DialogClosingState;
 import de.milchreis.uibooster.model.FormCloseListenerWrapper;
 import util.UI.Dialogs.EntryDialog;
 import util.UI.Dialogs.EntryListDialog;
+import util.UI.Dialogs.LoginDialog;
 
 import javax.swing.*;
 
@@ -63,9 +64,9 @@ public class ListBlockingDialog {
 
                 //TODO make sure all these methods do the right thing with the new UI
                 switch(options.indexOf(optionPane.getValue().toString())){
-                    case 0:  DiaryApp.createEntry(); break; //create
+                    case 0:  DiaryApp.createEmptyEntry(); EntryDialog.showEntry(""); break; //create
                     case 1:  EntryDialog.showEntry(EntryListDialog.getChosenTitle());break; //edit
-                    case 2:  DiaryApp.signOut(); break; //sign out
+                    case 2:  DiaryApp.signOut(LoginDialog.getUser()); LoginDialog.start(); break; //sign out
                     default: break; //shouldn't get this case
                 }
 
