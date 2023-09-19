@@ -35,9 +35,4 @@ public class EntryListDialog {
     public static String getChosenTitle(){
         return chosenTitle;
     }
-
-    public static Object edit() {
-        //TODO open chosen entry
-        return null;
-    }
 }

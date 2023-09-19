@@ -87,7 +87,7 @@ public class UiBooster {
      *
      * @param infoMessage expects the info message
      */
-    public void showInfoDialog(String infoMessage) {
+    public void showInfoDialog(String infoMessage, boolean close) {
         nonNull(infoMessage);
 
         JOptionPane jp = new JOptionPane(
@@ -97,6 +97,11 @@ public class UiBooster {
             null
         );
         JDialog dialog = jp.createDialog(null, infoMessage);
+        if(close){
+            dialog.setVisible(true);
+            dialog.dispose();
+            return;
+        }
         ((Frame) dialog.getParent()).setIconImage(WindowIconHelper.getIcon(options.getIconPath()).getImage());
         dialog.setIconImage(WindowIconHelper.getIcon(options.getIconPath()).getImage());
         dialog.setVisible(true);

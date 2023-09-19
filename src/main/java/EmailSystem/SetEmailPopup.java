@@ -16,6 +16,10 @@ public class SetEmailPopup {
         // System.out.println(SetEmailPopup.createPopup());
     }
 
+    public static String getEmail(){
+        return f.getByLabel("Enter the email you want attached to your account").asString();
+    }
+
     public SetEmailPopup(User u){
         this.u = u;
         this.send();

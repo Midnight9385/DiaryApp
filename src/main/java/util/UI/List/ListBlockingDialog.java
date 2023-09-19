@@ -9,6 +9,7 @@ import util.UI.Dialogs.LoginDialog;
 import javax.swing.*;
 
 import App.DiaryApp;
+import EmailSystem.SetEmailPopup;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -25,7 +26,7 @@ public class ListBlockingDialog {
     private final JComponent[] components;
     private final DialogClosingState closingState = new DialogClosingState();
     private Consumer<JDialog> onDialogCreated;
-    private final ArrayList<String> options = new ArrayList<>(Arrays.asList(new String[]{"Create New Entry","Edit Entry", "Sign Out"}));
+    private final ArrayList<String> options = new ArrayList<>(Arrays.asList(new String[]{"Create New Entry","Edit Entry", "Set Email","Sign Out"}));
 
     public ListBlockingDialog(JComponent... component) {
         this.components = component;
@@ -61,12 +62,17 @@ public class ListBlockingDialog {
             @Override
             public void windowClosed(WindowEvent e) {
                 closingState.setClosedByUser(optionPane.getValue() == null);
-
-                //TODO make sure all these methods do the right thing with the new UI
                 switch(options.indexOf(optionPane.getValue().toString())){
-                    case 0:  DiaryApp.createEmptyEntry(); EntryDialog.showEntry(""); break; //create
-                    case 1:  EntryDialog.showEntry(EntryListDialog.getChosenTitle());break; //edit
-                    case 2:  DiaryApp.signOut(LoginDialog.getUser()); LoginDialog.start(); break; //sign out
+                    //create
+                    case 0:  DiaryApp.createEmptyEntry(); EntryDialog.showEntry(""); break;
+                    //edit
+                    case 1:  EntryDialog.showEntry(EntryListDialog.getChosenTitle());break; 
+                    //set email
+                    case 2:  LoginDialog.getUser().setEmail(SetEmailPopup.getEmail()); 
+                             EntryListDialog.showEntires(LoginDialog.getUser()); break;
+                    //sign out
+                    case 3:  DiaryApp.signOut(LoginDialog.getUser()); LoginDialog.start(); break;
+
                     default: break; //shouldn't get this case
                 }
 

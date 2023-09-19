@@ -1,6 +1,6 @@
 package util.UI.Dialogs;
 
-import de.milchreis.uibooster.UiBooster;
+import util.UI.UiBooster;
 import de.milchreis.uibooster.model.DialogClosingState;
 import de.milchreis.uibooster.model.LoginCredentials;
 import util.UI.UISpacer;
@@ -150,6 +150,7 @@ public class LoginDialog extends JDialog {
     }
 
     public static void start(){
+        new UiBooster().showWaitingDialog("", "").close();
         EntryListDialog.showEntires(login(false, new LoginDialog(true, "Login to App", "Enter Username And Password", 
                                                      "Username: ", "Password: ", 
                                                      "Login", "Exit", 
@@ -160,7 +161,7 @@ public class LoginDialog extends JDialog {
     public static User login(boolean failed, LoginDialog login){
         login.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
         if(failed){
-            new UiBooster().showInfoDialog("invalid username or password please retry");
+            new UiBooster().showInfoDialog("invalid username or password please retry", false);
         }
         DiaryApp.getUserInterface().signIn(login.showDialog(), u); //uses psuedo pass by reference since it is easier in this case
         return (u[0]!=null)?u[0]:login(true, login);
