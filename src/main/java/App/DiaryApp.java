@@ -1,5 +1,20 @@
 package App;
 
+
+
+import CRUD.DataInterface;
+import CRUD.DataStorage;
+import EmailSystem.PasswordResetPopup;
+import UserSystem.User;
+import UserSystem.UserInterface;
+import de.milchreis.uibooster.model.LoginCredentials;
+import util.Exceptions.ErrorHandler;
+
+import java.io.File;
+import java.io.IOException;
+
+//#region old imports
+/*
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -10,25 +25,245 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import CRUD.DataInterface;
-import CRUD.DataStorage;
-import EmailSystem.PasswordResetPopup;
 import EmailSystem.SetEmailPopup;
-import UserSystem.User;
-import UserSystem.UserInterface;
-import de.milchreis.uibooster.model.LoginCredentials;
-import util.Exceptions.ErrorHandler;
 
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+*/
+//#endregion
 
 public class DiaryApp {
     private static UserInterface userInterface;
     private static DataInterface dataInterface;
+
+    
+
+    public static void checkFilesExist(){
+        String folderPath = new File("").getAbsolutePath()+"\\Data";
+        String filePath = folderPath + File.separator + "UserData.txt";
+
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            //if the file already exist no need to do anything further
+        } else {
+            // Create the folder if it doesn't exist
+            File folder = new File(folderPath);
+            if (!folder.exists()) {
+                if (folder.mkdirs()) {
+                    //folder created successfully
+                } else {
+                    //if the folder wasn't successfully created then you cannot use this app
+                    //so exit and display error message
+                    error();
+                }
+            }
+
+            try {
+                // Create the file
+                if (file.createNewFile()) {
+                    //file made successfully
+                } else {
+                    //while technically the app can still be used without the file it is used for critical functions
+                    //and thus it not being created will result in the app closing and displaying and error message
+                    error();
+                }
+            } catch (IOException e) {
+                //if there is some exception it is safe to assume the file cannot be used and thus the app cannot be used
+                error();
+            }
+        }
+    }
+
+    public static void forgotPassword(){
+        // System.out.println("started email thing");
+        try {
+            new PasswordResetPopup(userInterface);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // System.out.println("ended email thing");
+        return;
+    }
+
+    public static void error(){
+        //if there is an error this method will display an error dialog and then exit the program once the user clicks
+        //ok in the error dialog
+        ErrorHandler.sendFatalErrorMessage("Error Creating File", "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
+        "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
+        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt");                     
+    }
+
+    public static void signOut(User u){
+        userInterface.exit(dataInterface.exit(), u, false);
+    }
+
+    public static void signOut(User u, boolean close){
+        userInterface.exit(dataInterface.exit(), u, close);
+    }
+
+    public static void saveEntry(String title, String newTitle, String data){
+        dataInterface.getDataStorage().deleteData(title);
+        dataInterface.getDataStorage().createData(data, newTitle);
+    }
+
+    public static DataStorage getDataStorage(){
+        return dataInterface.getDataStorage();
+    }
+
+    public static String[] sendEntry(String s){
+        return new String[]{dataInterface.getDataStorage().readData(s).getName(),dataInterface.getDataStorage().readData(s).read().toString()};
+    }
+
+    public static void createEmptyEntry(){
+        dataInterface.create("");
+    }
+
+    public static void createAccount(LoginCredentials credentials, User[] user){
+        user[0] = userInterface.createUser(credentials.getUsername(), credentials.getPassword());
+    }
+
+    public static DataInterface getDataInterface() {
+        return dataInterface;
+    }
+
+    public static void createInterfaces(){
+        checkFilesExist();
+
+        dataInterface = new DataInterface();
+        userInterface = new UserInterface();
+
+        userInterface.testGetSavedData();
+    }
+
+    public static UserInterface getUserInterface() {
+        return userInterface;
+    }
+
+    //#region old UI code
+    /*
+    public static void readData(String s){
+        nameOfChosenEntry = s;
+        journalEntry.setText(dataInterface.getDataStorage().readData(s).read().toString());
+        journalTitle.setText(dataInterface.getDataStorage().readData(s).getName());
+    }
+
+    public static void signOut(){
+        userInterface.exit(dataInterface.exit(), user, false);
+
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(signInPanel);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    private static void exit(){
+        System.exit(0);
+    }
+
+    public static void loadItems() {
+        buttonList.removeAll(buttonList);
+        itemPanel.removeAll();
+
+        String[] strings = dataInterface.getList();
+
+        for (String s : strings) {
+            JButton button = new JButton(s);
+            buttonList.add(button);
+            itemPanel.add(button);
+        }
+
+        itemScrollPane.revalidate();
+        itemScrollPane.repaint();
+
+        for (JButton b : buttonList) {
+            b.addActionListener(e -> loadEntry(b.getText().substring(0, b.getText().indexOf("-") - 1)));
+            b.setAlignmentX(Component.CENTER_ALIGNMENT);
+        }
+    }
+
+    public static void createAccount(){
+        if(usernameBox.getText().equals("username")||passwordBox.getText().equals("password")){
+            usernameBox.setText("enter a username to use");
+            passwordBox.setText("enter a password to use");
+        }else{
+            user = userInterface.createUser(usernameBox.getText(), passwordBox.getText());
+
+            dataInterface.updateDataStorage(user.getSerial());
+
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(entriesPanel);
+            frame.revalidate();
+            frame.repaint();
+
+            loadItems();
+        }
+    }
+
+    public static void loadEntry(String s){
+        readData(s);
+
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(writePanel);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    public static void createEntry(){
+        if(!entryNameBox.getText().isEmpty() && !entryNameBox.getText().equals("enter name for entry")){
+            dataInterface.create(entryNameBox.getText());
+            nameOfChosenEntry = entryNameBox.getText();
+
+            journalEntry.setText("");
+            journalTitle.setText(nameOfChosenEntry);
+
+            entryNameBox.setText("");
+
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(writePanel);
+            frame.revalidate();
+            frame.repaint();
+        }
+    }
+
+    public static void signIn(){
+        user = userInterface.signIn(usernameBox.getText(), passwordBox.getText());
+        if(user != null){
+            frame.getContentPane().removeAll();
+            frame.getContentPane().add(entriesPanel);
+            frame.revalidate();
+            frame.repaint();
+
+            dataInterface.updateDataStorage(user.getSerial());
+
+            loadItems();
+        }else{
+            usernameBox.setText("invalid login!");
+            usernameBox.setForeground(Color.RED);
+        }
+    }
+
+    public static void saveEntry(){
+        for (JButton b : buttonList) {
+            if(b.getText().indexOf(nameOfChosenEntry)!=-1){
+                buttonList.remove(b);
+                break;
+            }
+        }
+
+        dataInterface.getDataStorage().deleteData(nameOfChosenEntry);
+        dataInterface.getDataStorage().createData(journalEntry.getText(), journalTitle.getText());
+
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(entriesPanel);
+        frame.revalidate();
+        frame.repaint();
+
+        loadItems();
+    }
+
     private static User user;
     private static JTextField usernameBox;
     private static JTextField passwordBox;
@@ -426,230 +661,6 @@ public class DiaryApp {
 
         signInB.requestFocusInWindow();
     }
-
-    public static void checkFilesExist(){
-        String folderPath = new File("").getAbsolutePath()+"\\Data";
-        String filePath = folderPath + File.separator + "UserData.txt";
-
-        File file = new File(filePath);
-
-        if (file.exists()) {
-            //if the file already exist no need to do anything further
-        } else {
-            // Create the folder if it doesn't exist
-            File folder = new File(folderPath);
-            if (!folder.exists()) {
-                if (folder.mkdirs()) {
-                    //folder created successfully
-                } else {
-                    //if the folder wasn't successfully created then you cannot use this app
-                    //so exit and display error message
-                    error();
-                }
-            }
-
-            try {
-                // Create the file
-                if (file.createNewFile()) {
-                    //file made successfully
-                } else {
-                    //while technically the app can still be used without the file it is used for critical functions
-                    //and thus it not being created will result in the app closing and displaying and error message
-                    error();
-                }
-            } catch (IOException e) {
-                //if there is some exception it is safe to assume the file cannot be used and thus the app cannot be used
-                error();
-            }
-        }
-    }
-
-    public static void forgotPassword(){
-        // System.out.println("started email thing");
-        try {
-            new PasswordResetPopup(userInterface);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // System.out.println("ended email thing");
-        return;
-    }
-
-    public static void error(){
-        //if there is an error this method will display an error dialog and then exit the program once the user clicks
-        //ok in the error dialog
-        ErrorHandler.sendFatalErrorMessage("Error Creating File", "there was an error creating the file directory or file for storing data, rerun application and make sure you are"+
-        "using admin. \n\n If error persist try making the file directory and files yourself in the directory of the jar file, "+
-        new File("").getAbsolutePath()+ ", in there make a folder name Data and inside that folder create UserData.txt");                     
-    }
-
-    public static void signOut(){
-        userInterface.exit(dataInterface.exit(), user, false);
-
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(signInPanel);
-        frame.revalidate();
-        frame.repaint();
-    }
-
-    public static void signOut(User u){
-        userInterface.exit(dataInterface.exit(), u, false);
-    }
-
-    public static void signOut(User u, boolean close){
-        userInterface.exit(dataInterface.exit(), u, close);
-    }
-
-    private static void exit(){
-        System.exit(0);
-    }
-
-    public static void signIn(){
-        user = userInterface.signIn(usernameBox.getText(), passwordBox.getText());
-        if(user != null){
-            frame.getContentPane().removeAll();
-            frame.getContentPane().add(entriesPanel);
-            frame.revalidate();
-            frame.repaint();
-
-            dataInterface.updateDataStorage(user.getSerial());
-
-            loadItems();
-        }else{
-            usernameBox.setText("invalid login!");
-            usernameBox.setForeground(Color.RED);
-        }
-    }
-
-    public static void saveEntry(){
-        for (JButton b : buttonList) {
-            if(b.getText().indexOf(nameOfChosenEntry)!=-1){
-                buttonList.remove(b);
-                break;
-            }
-        }
-
-        dataInterface.getDataStorage().deleteData(nameOfChosenEntry);
-        dataInterface.getDataStorage().createData(journalEntry.getText(), journalTitle.getText());
-
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(entriesPanel);
-        frame.revalidate();
-        frame.repaint();
-
-        loadItems();
-    }
-
-    public static void saveEntry(String title, String newTitle, String data){
-        dataInterface.getDataStorage().deleteData(title);
-        dataInterface.getDataStorage().createData(data, newTitle);
-    }
-
-    public static DataStorage getDataStorage(){
-        return dataInterface.getDataStorage();
-    }
-
-    public static void readData(String s){
-        nameOfChosenEntry = s;
-        journalEntry.setText(dataInterface.getDataStorage().readData(s).read().toString());
-        journalTitle.setText(dataInterface.getDataStorage().readData(s).getName());
-    }
-
-    public static String[] sendEntry(String s){
-        return new String[]{dataInterface.getDataStorage().readData(s).getName(),dataInterface.getDataStorage().readData(s).read().toString()};
-    }
-
-    public static void loadEntry(String s){
-        readData(s);
-
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(writePanel);
-        frame.revalidate();
-        frame.repaint();
-    }
-
-    public static void createEntry(){
-        if(!entryNameBox.getText().isEmpty() && !entryNameBox.getText().equals("enter name for entry")){
-            dataInterface.create(entryNameBox.getText());
-            nameOfChosenEntry = entryNameBox.getText();
-
-            journalEntry.setText("");
-            journalTitle.setText(nameOfChosenEntry);
-
-            entryNameBox.setText("");
-
-            frame.getContentPane().removeAll();
-            frame.getContentPane().add(writePanel);
-            frame.revalidate();
-            frame.repaint();
-        }
-    }
-
-    public static void createEmptyEntry(){
-        dataInterface.create("");
-    }
-
-    public static void createAccount(){
-        if(usernameBox.getText().equals("username")||passwordBox.getText().equals("password")){
-            usernameBox.setText("enter a username to use");
-            passwordBox.setText("enter a password to use");
-        }else{
-            user = userInterface.createUser(usernameBox.getText(), passwordBox.getText());
-
-            dataInterface.updateDataStorage(user.getSerial());
-
-            frame.getContentPane().removeAll();
-            frame.getContentPane().add(entriesPanel);
-            frame.revalidate();
-            frame.repaint();
-
-            loadItems();
-        }
-    }
-
-    public static void createAccount(LoginCredentials credentials, User[] user){
-        user[0] = userInterface.createUser(credentials.getUsername(), credentials.getPassword());
-    }
-
-    public static void loadItems() {
-        buttonList.removeAll(buttonList);
-        itemPanel.removeAll();
-
-        String[] strings = dataInterface.getList();
-
-        for (String s : strings) {
-            JButton button = new JButton(s);
-            buttonList.add(button);
-            itemPanel.add(button);
-        }
-
-        itemScrollPane.revalidate();
-        itemScrollPane.repaint();
-
-        for (JButton b : buttonList) {
-            b.addActionListener(e -> loadEntry(b.getText().substring(0, b.getText().indexOf("-") - 1)));
-            b.setAlignmentX(Component.CENTER_ALIGNMENT);
-        }
-    }
-
-    public static DataInterface getDataInterface() {
-        return dataInterface;
-    }
-
-    public static void createInterfaces(){
-        checkFilesExist();
-
-        dataInterface = new DataInterface();
-        userInterface = new UserInterface();
-
-        userInterface.testGetSavedData();
-    }
-
-    public static UserInterface getUserInterface() {
-        return userInterface;
-    }
-
-    public static void close() {
-        // userInterface.sa
-    }
+    */
+    //#endregion
 }

@@ -3,8 +3,6 @@ package util.UI.Dialogs;
 import App.DiaryApp;
 import util.UI.Source.model.Form;
 import util.UI.Source.model.FormElementChangeListener;
-import util.UI.Source.model.UiBoosterOptions;
-import util.UI.Source.model.options.DarkUiBoosterOptions;
 import util.UI.Source.UiBooster;
 
 public class EntryDialog {

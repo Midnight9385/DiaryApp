@@ -4,7 +4,6 @@ import App.DiaryApp;
 import UserSystem.User;
 import UserSystem.UserInterface;
 import de.milchreis.uibooster.UiBooster;
-import de.milchreis.uibooster.model.LoginCredentials;
 import util.UI.Dialogs.LoginDialog;
 
 

@@ -9,8 +9,6 @@ import util.UI.Source.model.FormCloseListenerWrapper;
 
 import javax.swing.*;
 
-import App.DiaryApp;
-
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
