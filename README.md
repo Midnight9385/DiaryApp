@@ -4,4 +4,6 @@ A diary app that I made, it uses serialization, a CRUD system, and a user system
 if you don't care about the code and just want to use it, the installer is in the "installer stuff and jar" folder.
 The code is messy but this was the first time I was using half of these concepts so it was fun to do.
 
-WIP - revamping the UI and maybe adding emailing your entries to the email attached to your account
+WIP - maybe adding emailing your entries to the email attached to your account
+
+Note if you download the code there is a missing class that returns the string of the API access key due to the sensitive nature of API keys I couldn't include it in a public repository
