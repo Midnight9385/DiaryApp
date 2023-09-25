@@ -60,7 +60,7 @@ public class SimpleBlockingDialog {
 
                 if(optionPane.getValue()!=null){
                     EntryDialog.saveEntry();
-                    EntryListDialog.showEntires(LoginDialog.getUser());
+                    EntryListDialog.showEntires(LoginDialog.getUser(), false);
                 }
 
                 if (exitListenerWrapper != null)

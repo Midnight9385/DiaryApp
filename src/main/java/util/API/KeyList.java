@@ -87,7 +87,7 @@ public class KeyList implements Serializable{
             so.flush();
             FileWriter writer = new FileWriter(filePath);
             String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
-            System.out.println("code: "+code);
+            // System.out.println("code: "+code);
             writer.write(code);
             writer.flush();
             writer.close();

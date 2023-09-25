@@ -155,7 +155,7 @@ public class LoginDialog extends JDialog {
                                                      "Username: ", "Password: ", 
                                                      "Login", "Exit", 
                                                      "C:\\Users\\Zachary\\Documents\\GitHub\\diaryapp\\src\\main\\resources\\DiaryAppIcon.png")
-                                                     ));                                                                                          
+                                                     ), true);                                                                                          
     }
 
     public static User login(boolean failed, LoginDialog login){

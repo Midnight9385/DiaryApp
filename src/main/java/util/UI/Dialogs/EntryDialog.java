@@ -37,6 +37,7 @@ public class EntryDialog {
     }
 
     public static void saveEntry(){
+        // System.out.println("saved:"+title);
         DiaryApp.saveEntry(EntryListDialog.getChosenTitle(), title, entry);
     }
 

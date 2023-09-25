@@ -13,9 +13,11 @@ public class EntryListDialog {
 
     private static String chosenTitle = "";
 
-    public static void showEntires(User u){
+    public static void showEntires(User u, boolean reloadList){
         LoginDialog.setUser(u);
-        DiaryApp.getDataInterface().updateDataStorage(LoginDialog.getUser().getSerial());
+        if(reloadList){
+            DiaryApp.getDataInterface().updateDataStorage(LoginDialog.getUser().getSerial());
+        }
         b.showList("", "Entries", 
                    element -> setChosenTitle(element.getTitle()), 
                    createElementList(u));

@@ -105,8 +105,11 @@ public class DiaryApp {
     }
 
     public static void saveEntry(String title, String newTitle, String data){
-        dataInterface.getDataStorage().deleteData(title);
-        dataInterface.getDataStorage().createData(data, newTitle);
+        // System.out.println("deleted old");
+        getDataInterface().getDataStorage().deleteData(title);
+        // System.out.println("saving new");
+        getDataInterface().getDataStorage().createData(data, newTitle);
+        // System.out.println(getDataInterface().getDataStorage().readData(newTitle).getName());
     }
 
     public static DataStorage getDataStorage(){
@@ -135,7 +138,7 @@ public class DiaryApp {
         dataInterface = new DataInterface();
         userInterface = new UserInterface();
 
-        userInterface.testGetSavedData();
+        // userInterface.
     }
 
     public static UserInterface getUserInterface() {

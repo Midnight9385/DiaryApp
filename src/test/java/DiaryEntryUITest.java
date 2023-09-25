@@ -12,6 +12,6 @@ public class DiaryEntryUITest {
     }
 
     public DiaryEntryUITest(User u){
-        EntryListDialog.showEntires(u);
+        EntryListDialog.showEntires(u,true);
     }
 }

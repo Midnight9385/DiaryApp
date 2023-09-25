@@ -33,7 +33,7 @@ public class AccountCreatorDialog {
 
     public static void createAccount(){
         DiaryApp.createAccount(createAccountDialog().showDialog(), user);
-        EntryListDialog.showEntires(user[0]);
+        EntryListDialog.showEntires(user[0],true);
     }
 
     public static User getUser(){

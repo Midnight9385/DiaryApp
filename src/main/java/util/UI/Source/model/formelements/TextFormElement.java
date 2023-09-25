@@ -6,6 +6,7 @@ import util.UI.Source.model.FormElementChangeListener;
 
 import javax.swing.*;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -22,6 +23,8 @@ public class TextFormElement extends FormElement {
         if (initialText != null) {
             textfield.setCaretPosition(initialText.length());
         }
+        textfield.setPreferredSize(new Dimension(400, 40));
+        textfield.setMaximumSize(new Dimension(400, 40));
     }
 
     @Override

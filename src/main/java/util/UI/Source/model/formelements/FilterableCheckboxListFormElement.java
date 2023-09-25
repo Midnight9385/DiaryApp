@@ -81,7 +81,7 @@ public class FilterableCheckboxListFormElement extends FormElement {
         vbox.add(new JScrollPane(
                 list,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS));
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 
         return vbox;
     }

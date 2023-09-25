@@ -40,6 +40,7 @@ public class FormPanel {
             panel.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
             panel.add(elementPanel);
         }
+        panel.setMinimumSize(new Dimension(500, 500));
         return panel;
     }
 }

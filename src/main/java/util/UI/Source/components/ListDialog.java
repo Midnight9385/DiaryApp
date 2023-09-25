@@ -26,7 +26,7 @@ public class ListDialog {
         final JScrollPane jScrollPane = new JScrollPane(
                 list,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         jScrollPane.setPreferredSize(new Dimension(400, 400));
 

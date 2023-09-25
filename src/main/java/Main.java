@@ -4,7 +4,7 @@ import util.UI.Dialogs.LoginDialog;
 public class Main {
     
     public static void main(String[] args) {
-        DiaryApp.createInterfaces();
+      DiaryApp.createInterfaces();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

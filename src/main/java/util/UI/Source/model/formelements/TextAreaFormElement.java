@@ -6,6 +6,7 @@ import util.UI.Source.model.FormElementChangeListener;
 
 import javax.swing.*;
 
+import java.awt.Dimension;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.InputMethodListener;
 import java.awt.event.KeyAdapter;
@@ -20,6 +21,11 @@ public class TextAreaFormElement extends FormElement {
         area = new JTextArea(initialText);
         area.setEditable(!readOnly);
         area.setRows(rows);
+        area.setWrapStyleWord(true);
+        area.setLineWrap(true);
+        area.setPreferredSize(new Dimension(400, 400));
+        area.setMinimumSize(new Dimension(400, 400));
+        area.setFont(area.getFont().deriveFont(area.getFont().getSize()+10));
     }
 
     @Override

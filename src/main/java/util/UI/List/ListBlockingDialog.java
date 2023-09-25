@@ -69,7 +69,7 @@ public class ListBlockingDialog {
                     case 1:  EntryDialog.showEntry(EntryListDialog.getChosenTitle());break; 
                     //set email
                     case 2:  LoginDialog.getUser().setEmail(SetEmailPopup.getEmail()); 
-                             EntryListDialog.showEntires(LoginDialog.getUser()); break;
+                             EntryListDialog.showEntires(LoginDialog.getUser(), false); break;
                     //sign out
                     case 3:  DiaryApp.signOut(LoginDialog.getUser()); LoginDialog.start(); break;
 

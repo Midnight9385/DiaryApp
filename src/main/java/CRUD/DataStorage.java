@@ -239,6 +239,7 @@ public class DataStorage{
     
     public ArrayList<String[]> getTableList(){
         ArrayList<String[]> output = new ArrayList<>();
+        // System.out.println(dataStorage.size());
         dataStorage.forEach((t) -> output.add(new String[]{t.getName(), t.getDate()}));
         return output;
     }
