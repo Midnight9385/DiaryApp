@@ -117,7 +117,7 @@ public class DiaryApp {
     }
 
     public static String[] sendEntry(String s){
-        return new String[]{dataInterface.getDataStorage().readData(s).getName(),dataInterface.getDataStorage().readData(s).read().toString()};
+        return new String[]{dataInterface.getDataStorage().readData(s).getName(),(dataInterface.getDataStorage().readData(s).read()==null)?"":dataInterface.getDataStorage().readData(s).read().toString()};
     }
 
     public static void createEmptyEntry(){
