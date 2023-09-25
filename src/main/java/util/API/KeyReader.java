@@ -6,6 +6,6 @@ public class KeyReader {
     }
 
     public static String getAccessKey(){
-        return KeyList.getInstance().getKey();
+        return KeyList.getInstance().getAccessKey();
     }
 }

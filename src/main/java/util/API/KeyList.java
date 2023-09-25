@@ -8,83 +8,44 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Random;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
+public class KeyList implements Serializable{
+    private static final long serialVersionUID = 2086384830709399376L;
 
-import java.security.spec.KeySpec;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESedeKeySpec;
+    private String password;
+    private ArrayList<String> keys = new ArrayList<>();
 
-public class KeyList {
-    public SerializedData data = new SerializedData();
     private static KeyList instance;
-    public static boolean madeNew = false;
 
-    private transient Cipher cipher;
-    private transient KeySpec ks;
-    private transient SecretKeyFactory skf;
-    private SecretKey key;
+    public static void main(String[] args){
+        // KeyList d = KeyList.getInstance();
+        // System.out.println(d.keys.get(d.keys.indexOf(d.password)+1));
+        // d.generateKeys();
+        // d.saveData();
+    }
 
-    static String test;
-
-    static Random r = new Random();
-
+    //#region constructors
     public static KeyList getInstance(){
         if(instance == null){
-            instance = new KeyList();
-            // instance.data = getKeyList();
+            instance = load();
         }
         return instance;
     }
 
     private KeyList(){
-        madeNew = true;
-        setUpEncryption();
     }
+    //#endregion
 
-    public static void main(String[] args){
-        checkFilesExist();
-        KeyList instance = KeyList.getInstance();
-        System.out.println(madeNew);
-    
-        if (madeNew||true) {
-            checkFilesExist();
-            instance.generateKeys();
-            saveData();
-        } else {
-            System.out.println(instance.data.password);
-            System.out.println(instance.decrypt(instance.data.password));
-        }
-    }
-
-    public String getKey(){
-        return data.keys.get(data.keys.indexOf(decrypt(data.password)));
-    }
-
-    private static void saveData(){
-        String rawP = instance.data.password;
-        do{
-            if(instance.key == null){
-                instance.setUpEncryption();
-            }
-            instance.data.password = rawP;
-            instance.data.password = instance.encrypt(rawP);
-            System.out.println("encrypted: "+instance.data.password);
-            System.out.println("decrypted: "+instance.decrypt(instance.data.password));
-            System.out.println("actual: "+rawP);
-        }while(!rawP.equals(instance.decrypt(instance.data.password)));
-
-        // SerializedData.saveData(instance.data);
-    }
-
+    //#region serialization
     private static void checkFilesExist(){
         
-        String folderPath = new File("").getAbsolutePath();
-        String filePath = folderPath + File.separator + "keys.txt";
+        String folderPath = new File("").getAbsolutePath()+File.separator+"src"+File.separator+"main"+File.separator+
+                                        "java"+File.separator+"util"+File.separator+"API";
+        String filePath = folderPath+File.separator+"keys.txt";
 
         File file = new File(filePath);
 
@@ -116,24 +77,58 @@ public class KeyList {
         }
     }
 
-    private void setUpEncryption(){
-        try{
-            String myEncryptionKey = "ThisIsSpartaThisIsSparta";
-            byte[] arrayBytes = myEncryptionKey.getBytes("UTF8");
-            ks= new DESedeKeySpec(arrayBytes);
-            skf = SecretKeyFactory.getInstance("DESede");
-            // System.out.println(key.getAlgorithm());
-            if(key == null || !key.getAlgorithm().equals("DESede")){
-                // System.out.println("new key");
-                key= skf.generateSecret(ks);
-            }    
-            cipher = Cipher.getInstance("DESede");
-        }catch(Exception e){
+    public static void saveData(){
+        String filePath = new File("").getAbsolutePath()+File.separator+"src"+File.separator+"main"+File.separator+
+                                        "java"+File.separator+"util"+File.separator+"API"+File.separator+"keys.txt";
+        try {
+            ByteArrayOutputStream bo = new ByteArrayOutputStream();
+            ObjectOutputStream so = new ObjectOutputStream(bo);
+            so.writeObject(KeyList.getInstance());
+            so.flush();
+            FileWriter writer = new FileWriter(filePath);
+            String code = new String(Base64.getEncoder().encode(bo.toByteArray()));
+            System.out.println("code: "+code);
+            writer.write(code);
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void generateKeys(){
+
+    private static KeyList load(){
+        String filePath = new File("").getAbsolutePath()+File.separator+"src"+File.separator+"main"+File.separator+
+                                        "java"+File.separator+"util"+File.separator+"API"+File.separator+"keys.txt";
+        try{
+
+            FileReader reader = new FileReader(filePath);
+            int content;
+            String n = "";
+            while((content=reader.read()) !=-1){
+                n+=(char)content;
+            }
+            if(!n.equals("")){
+                byte[] b = n.getBytes();
+                ByteArrayInputStream bo = new ByteArrayInputStream(Base64.getDecoder().decode(b));
+                ObjectInputStream so = new ObjectInputStream(bo);
+                Object o = so.readObject();
+                reader.close();
+                return (KeyList) o;
+            }
+            else{
+                reader.close();
+                return new KeyList();
+            }
+        }catch(Exception i){
+            i.printStackTrace();
+            return new KeyList();
+        }
+    }
+    //#endregion
+
+    //#region key generation
+    private void generateKeys(){
+        Random r = new Random();
         ArrayList<String> s = new ArrayList<>();
         s.add(getAccessKey());
         for(int i=0; i<49; i++){
@@ -144,17 +139,18 @@ public class KeyList {
         for(int i=0; i<50; i++){
             int index = r.nextInt(s.size());
             if(s.get(index).equals(getAccessKey())){
-                data.password = p.get(i-1);
+               password = p.get(i-1);
             }
             p.add(s.get(index));
             s.remove(index);
             
         }
 
-        data.keys = p;
+        keys = p;
     }
 
     private static String getRandomCharacter(boolean forceCapital){
+        Random r = new Random();
         if(r.nextInt(100)>75 || forceCapital){
             return String.valueOf((char)(r.nextInt(65,91)));
         }else if(r.nextInt(100)>75){
@@ -185,77 +181,9 @@ public class KeyList {
         }
         return s;
     }
+    //#endregion
 
-    public String encrypt(String unencryptedString) {
-        String encryptedString = null;
-        try {
-            if(key==null){
-                getInstance().setUpEncryption();
-            }
-            cipher = Cipher.getInstance("DESede");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] plainText = unencryptedString.getBytes("UTF8");
-            byte[] encryptedText = cipher.doFinal(plainText);
-            encryptedString = new String(Base64.getEncoder().encode(encryptedText));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return encryptedString;
-    }
-
-
-    public String decrypt(String encryptedString) {
-        String decryptedText=null;
-        try {
-            if(key==null){
-                getInstance().setUpEncryption();
-            }
-            cipher = Cipher.getInstance("DESede");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] encryptedText = Base64.getDecoder().decode(encryptedString);
-            byte[] plainText = cipher.doFinal(encryptedText);
-            decryptedText= new String(plainText);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return decryptedText;
-    }
+    public String getAccessKey(){
+        return keys.get(keys.indexOf(password)+1);
+    }    
 }
-
-
-
-// class TrippleDes {
-
-//     private static final String UNICODE_FORMAT = "UTF8";
-//     public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
-//     private KeySpec ks;
-//     private SecretKeyFactory skf;
-//     private Cipher cipher;
-//     byte[] arrayBytes;
-//     private String myEncryptionKey;
-//     private String myEncryptionScheme;
-//     SecretKey key;
-
-//     private static TrippleDes instance;
-
-//     public static TrippleDes getInstance(){
-//         if(instance == null){
-//             try {
-//                 instance = new TrippleDes();
-//             } catch (Exception e) {
-//                 e.printStackTrace();
-//             }
-//         }
-//         return instance;
-//     }
-
-//     private TrippleDes() throws Exception {
-//         myEncryptionScheme = DESEDE_ENCRYPTION_SCHEME;
-//         arrayBytes = myEncryptionKey.getBytes(UNICODE_FORMAT);
-//         ks = new DESedeKeySpec(arrayBytes);
-//         skf = SecretKeyFactory.getInstance(myEncryptionScheme);
-//         cipher = Cipher.getInstance(myEncryptionScheme);
-//         key = skf.generateSecret(ks);
-//     }
-
-// }
