@@ -12,6 +12,7 @@ public class EntryDialog {
     public static void showEntry(String cTitle){
         UiBooster booster = new UiBooster();
         title = cTitle;
+        entry = DiaryApp.sendEntry(cTitle)[1];
         Form form = booster.createForm("Entry")
                     .addText("Title", DiaryApp.sendEntry(cTitle)[0], 0)
                     .setChangeListener(new FormElementChangeListener() {
@@ -38,6 +39,7 @@ public class EntryDialog {
 
     public static void saveEntry(){
         // System.out.println("saved:"+title);
+        // System.out.println("entry: "+entry);
         DiaryApp.saveEntry(EntryListDialog.getChosenTitle(), title, entry);
     }
 

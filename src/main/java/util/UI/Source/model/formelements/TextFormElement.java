@@ -40,6 +40,8 @@ public class TextFormElement extends FormElement {
             });
         }
 
+        textfield.setMinimumSize(new Dimension(400, 400));
+
         return textfield;
     }
 

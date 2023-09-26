@@ -1,5 +1,6 @@
 package UserSystem;
 
+import App.DiaryApp;
 import de.milchreis.uibooster.model.LoginCredentials;
 
 /**
@@ -28,8 +29,9 @@ public class UserInterface {
      * @param user the user to set the serial of
      * @param close whether or not to terminate the program after saving
      */
-    public void exit(String serial, User user,boolean close) {
+    public void exit(String serial, User user, boolean close) {
         user.setSerial(serial);
+        // System.out.println(DiaryApp.getDataInterface().getDataStorage().contructDataFromString(serial).get(0).read());
         d.close(close);
     }
 
