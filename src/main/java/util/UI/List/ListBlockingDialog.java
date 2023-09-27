@@ -26,7 +26,7 @@ public class ListBlockingDialog {
     private final JComponent[] components;
     private final DialogClosingState closingState = new DialogClosingState();
     private Consumer<JDialog> onDialogCreated;
-    private final ArrayList<String> options = new ArrayList<>(Arrays.asList(new String[]{"Create New Entry","Edit Entry", "Set Email","Sign Out"}));
+    private final ArrayList<String> options = new ArrayList<>(Arrays.asList(new String[]{"Create New Entry","Edit Entry", "Delete", "Set Email","Sign Out"}));
 
     public ListBlockingDialog(JComponent... component) {
         this.components = component;
@@ -67,11 +67,14 @@ public class ListBlockingDialog {
                     case 0:  DiaryApp.createEmptyEntry(); EntryDialog.showEntry(""); break;
                     //edit
                     case 1:  EntryDialog.showEntry(EntryListDialog.getChosenTitle());break; 
+                    //delete
+                    case 2:  DiaryApp.getDataInterface().getDataStorage().deleteData(EntryListDialog.getChosenTitle());
+                             EntryListDialog.showEntires(LoginDialog.getUser(), true); break;
                     //set email
-                    case 2:  LoginDialog.getUser().setEmail(SetEmailPopup.getEmail()); 
+                    case 3:  LoginDialog.getUser().setEmail(SetEmailPopup.getEmail()); 
                              EntryListDialog.showEntires(LoginDialog.getUser(), false); break;
                     //sign out
-                    case 3:  DiaryApp.signOut(LoginDialog.getUser()); LoginDialog.start(); break;
+                    case 4:  DiaryApp.signOut(LoginDialog.getUser()); LoginDialog.start(); break;
 
                     default: break; //shouldn't get this case
                 }

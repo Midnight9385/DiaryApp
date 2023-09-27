@@ -1,9 +1,9 @@
 package util.UI.Dialogs;
 
 import App.DiaryApp;
+import util.UI.Source.UiBooster;
 import util.UI.Source.model.Form;
 import util.UI.Source.model.FormElementChangeListener;
-import util.UI.Source.UiBooster;
 
 public class EntryDialog {
     private static String title;
@@ -24,7 +24,7 @@ public class EntryDialog {
                         
                     })
                     .addTextArea("Entry", DiaryApp.sendEntry(cTitle)[1])
-                    .show();            
+                    .show();     
     }
 
     public static void saveEnteredData(String label, String data) {

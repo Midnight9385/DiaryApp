@@ -114,6 +114,7 @@ public class DataStorage{
      * @param name the name of the entry to delete
      */
     public void deleteData(String name){
+        // System.out.println(name);
         for (DataClass data : dataStorage) {
             if(data.getName().equals(name)){
                 dataStorage.remove(data);
