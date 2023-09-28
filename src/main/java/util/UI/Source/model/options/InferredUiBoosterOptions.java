@@ -2,6 +2,8 @@ package util.UI.Source.model.options;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import util.UI.Source.model.UiBoosterOptions;
+import util.UI.Source.model.options.themes.OceanDarkLaf;
+import util.UI.Source.model.options.themes.PurpleDarkLaf;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
@@ -16,17 +18,17 @@ public class InferredUiBoosterOptions extends UiBoosterOptions {
             LookAndFeel laf = UIManager.getLookAndFeel();
             if (laf == null) {
                 System.err.println("UiBooster: No previously set look anf feel found! Using default.");
-                return new FlatDarculaLaf();
+                return new OceanDarkLaf();
             }
             if (!(laf instanceof BasicLookAndFeel)) {
                 System.err.println("UiBooster: Look and feel is not an instance of BasicLookAndFeel! Using default.");
-                return new FlatDarculaLaf();
+                return new OceanDarkLaf();
             }
             return (BasicLookAndFeel) laf;
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("An unexpected exception occurred while initialising DefaultUiBoosterOptions! Using default.");
-            return new FlatDarculaLaf();
+            return new OceanDarkLaf();
         }
     }
 

@@ -3,6 +3,7 @@ package util.UI.Dialogs;
 import util.UI.UiBooster;
 import de.milchreis.uibooster.model.DialogClosingState;
 import de.milchreis.uibooster.model.LoginCredentials;
+import de.milchreis.uibooster.model.options.DarkUiBoosterOptions;
 import util.UI.UISpacer;
 
 import javax.swing.*;
@@ -29,6 +30,12 @@ public class LoginDialog extends JDialog {
 
     public LoginDialog(boolean login, String title, String message, String usernameLabel, String passwordLabel, String loginButtonLabel, String cancelButtonLabel, String iconPath) {
         super((JFrame) null, title, true);
+        try {
+            UIManager.setLookAndFeel(new DarkUiBoosterOptions().getLookAndFeel());
+        } catch (UnsupportedLookAndFeelException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();
 
@@ -92,7 +99,7 @@ public class LoginDialog extends JDialog {
 
         JButton btnCancel = new JButton(cancelButtonLabel);
         btnCancel.addActionListener(e -> {
-            DiaryApp.signOut(getUser(), true);
+            try{DiaryApp.signOut(getUser(), true);}catch(Exception p){System.exit(0);}
             // closingState.setClosedByUser(true);
         });
 
@@ -161,7 +168,7 @@ public class LoginDialog extends JDialog {
     public static User login(boolean failed, LoginDialog login){
         login.setBounds(UISpacer.getMiddleX(800), UISpacer.getMiddleY(400), 800, 400);
         if(failed){
-            new UiBooster().showInfoDialog("invalid username or password please retry", false);
+            new UiBooster(new DarkUiBoosterOptions()).showInfoDialog("invalid username or password please retry", false);
         }
         DiaryApp.getUserInterface().signIn(login.showDialog(), u); //uses psuedo pass by reference since it is easier in this case
         return (u[0]!=null)?u[0]:login(true, login);

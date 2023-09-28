@@ -4,13 +4,14 @@ import App.DiaryApp;
 import util.UI.Source.UiBooster;
 import util.UI.Source.model.Form;
 import util.UI.Source.model.FormElementChangeListener;
+import util.UI.Source.model.options.DarkUiBoosterOptions;
 
 public class EntryDialog {
     private static String title;
     private static String entry;
 
     public static void showEntry(String cTitle){
-        UiBooster booster = new UiBooster();
+        UiBooster booster = new UiBooster(new DarkUiBoosterOptions());
         title = cTitle;
         entry = DiaryApp.sendEntry(cTitle)[1];
         Form form = booster.createForm("Entry")

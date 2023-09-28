@@ -2,6 +2,8 @@ package util.UI.Source.model.options;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import util.UI.Source.model.UiBoosterOptions;
+import util.UI.Source.model.options.themes.OceanDarkLaf;
+import util.UI.Source.model.options.themes.PurpleDarkLaf;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLookAndFeel;
@@ -23,7 +25,7 @@ public class OSNativeUiBoosterOptions extends UiBoosterOptions {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new FlatDarculaLaf();
+            return new OceanDarkLaf();
         }
     }
 

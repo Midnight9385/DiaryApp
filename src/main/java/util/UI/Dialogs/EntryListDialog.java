@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import App.DiaryApp;
 import UserSystem.User;
 import de.milchreis.uibooster.model.ListElement;
+import de.milchreis.uibooster.model.options.DarkUiBoosterOptions;
 import util.UI.UiBooster;
 
 public class EntryListDialog {
-    private static UiBooster b = new UiBooster();
+    private static UiBooster b = new UiBooster(new DarkUiBoosterOptions());
 
     private static String chosenTitle = "";
 
